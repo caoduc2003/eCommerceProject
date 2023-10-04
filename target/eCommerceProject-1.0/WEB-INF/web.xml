@@ -7,7 +7,7 @@
     </welcome-file-list>
     <servlet>
         <servlet-name>HelloServlet</servlet-name>
-        <servlet-class>com.ecommerce.controller.HelloServlet</servlet-class>
+        <servlet-class>com.ecommerce.controllers.HelloServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HelloServlet</servlet-name>
