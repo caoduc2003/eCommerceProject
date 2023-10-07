@@ -68,7 +68,7 @@
             </div>
             <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                 <div class="card-body">
-                    <form action="DispatchController" method="POST">
+                    <form action="login" method="POST">
                         <div class="form-control">
                             <label class="label">
                                 <span class="label-text">Email</span>
