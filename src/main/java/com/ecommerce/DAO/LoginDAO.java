@@ -9,10 +9,12 @@ import java.sql.SQLException;
 import com.ecommerce.models.*;
 
 import com.ecommerce.utils.DBHelper;
+import com.ecommerce.models.LoginDTO;
 
 public class LoginDAO implements Serializable {
     private final String INVALID_PAGE = null;
     private final String HOME_PAGE = "index.jsp";
+
 
 
     public boolean checkLogin (String username, String password)
