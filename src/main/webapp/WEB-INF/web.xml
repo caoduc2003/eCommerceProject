@@ -7,18 +7,18 @@
     </welcome-file-list>
     <servlet>
         <servlet-name>
-            DispatchController
+            LoginController
         </servlet-name>
         <servlet-class>
-            com.ecommerce.controllers.DispatchController
+            com.ecommerce.controllers.LoginController
         </servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>
-            DispatchController
+            LoginController
         </servlet-name>
         <url-pattern>
-            /DispatchController
+            /login
         </url-pattern>
     </servlet-mapping>
     <session-config>
