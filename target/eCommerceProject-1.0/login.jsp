@@ -1,6 +1,10 @@
+<%
+    // Prevent caching
+    response.setHeader("Cache-Control","no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma","no-cache");
+%>
 <!DOCTYPE html>
 <html lang="en" data-theme="cupcake">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +18,7 @@
 
             // add daisyUI plugin
             plugins: [require("daisyui")],
-            
+
             // daisyUI config (optional - here are the default values)
             daisyui: {
                 themes: ["light", "dark", "cupcake"], // true: all themes | false: only light + dark | array: specific themes like this ["light", "dark", "cupcake"]
@@ -43,7 +47,7 @@
         </div>
         <!-- Help portal -->
         <div>
-            <a href="https://help.shopee.vn/portal" target="_blank" class="no-underline text-orange-700">
+            <a href="https://www.un.org/en/contact-us-0" target="_blank" class="no-underline text-orange-700">
                 <i class="fa-regular fa-circle-question"></i>
                 Need help?
             </a>
@@ -64,29 +68,30 @@
             </div>
             <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                 <div class="card-body">
-                    <div class="form-control">
-                        <label class="label">
-                            <span class="label-text">Email</span>
-                        </label>
-                        <input type="text" placeholder="email" class="input input-bordered" />
-                    </div>
-                    <div class="form-control">
-                        <label class="label">
-                            <span class="label-text">Password</span>
-                        </label>
-                        <input type="text" placeholder="password" class="input input-bordered" />
-                        <label class="label">
-                            <a href="#" class="label-text-alt link link-hover">Forgot password?</a>
-                        </label>
-                    </div>
-                    <div class="form-control mt-6">
-                        <button class="btn btn-primary">Login</button>
-                    </div>
-
-                    <div class="text-center mt-5">
-                        Dont have an account?
-                        <a href="#" class="link link-hover">Sign up</a>
-                    </div>
+                    <form action="DispatchController" method="POST">
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Email</span>
+                            </label>
+                            <input type="text" placeholder="email" class="input input-bordered" name="txtEmail" />
+                        </div>
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Password</span>
+                            </label>
+                            <input type="text" placeholder="password" class="input input-bordered" name="txtPassword"/>
+                            <label class="label">
+                                <a href="#" class="label-text-alt link link-hover">Forgot password?</a>
+                            </label>
+                        </div>
+                        <div class="form-control mt-6">
+                            <button class="btn btn-primary" type="submit" name="btAction" value="Login">Login</button>
+                        </div>
+                        <div class="text-center mt-5">
+                            Dont have an account?
+                            <a href="#" class="link link-hover">Sign up</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

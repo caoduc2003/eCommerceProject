@@ -4,34 +4,51 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import com.ecommerce.models.*;
 
 import com.ecommerce.utils.DBHelper;
 
 public class LoginDAO implements Serializable {
-    private final String INVALID_PAGE = "invalid.html";
-    private final String HOME_PAGE = "index.html";
+    private final String INVALID_PAGE = null;
+    private final String HOME_PAGE = "index.jsp";
 
-    public String checkLogin(String email, String password) throws Exception {
-        String url = INVALID_PAGE;
+
+    public boolean checkLogin (String username, String password)
+            throws SQLException, ClassNotFoundException{
         Connection con = null;
-        PreparedStatement ps = null;
+        PreparedStatement stm = null;
         ResultSet rs = null;
-        try {
-            String sql = "SELECT * FROM Users WHERE email = ? AND password = ?";
+        try{
+            //1. Connect DB
             con = DBHelper.makeConnection();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, email);
-            ps.setString(2, password);
-            rs = ps.executeQuery();
-            if (rs.next() && rs.getString("account_status").equals("Active")){
-                url = HOME_PAGE;
+            if(con!=null){
+                //2. Create SQL String
+                String sql="SELECT * FROM Users WHERE email = ? AND password = ? ";
+                //3. Create Statement
+                stm = con.prepareStatement(sql);
+                stm.setString(1, username);
+                stm.setString(2, password);
+                //4. Excute Query
+                rs = stm.executeQuery();
+                //5. Process Result
+                if(rs.next() && rs.getString("account_status").equals("active")){
+                    return true;
+                }
             }
-        } finally {
-            if (rs != null) rs.close();
-            if (ps != null) ps.close();
-            if (con != null) con.close();
         }
-        return url;
+        finally{
+            if(rs != null){
+                rs.close();
+            }
+            if(stm != null){
+                stm.close();
+            }
+            if(con != null){
+                con.close();
+            }
+        }
+        return false;
     }
 }

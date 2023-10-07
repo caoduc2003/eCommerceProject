@@ -12,7 +12,8 @@ public class DBHelper implements Serializable {
         // 2. Create Connection String
         String url = "jdbc:sqlserver:"
                 + "//localhost:1433"
-                + ";databaseName=eCommerceProject";
+                + ";databaseName=eCommerceProject;integratedSecurity=false;"
+                +"encrypt=true;trustServerCertificate=true";
         // 3. Open Connection
         Connection con = DriverManager.getConnection(url, "ducldc", "123456");
         return con;

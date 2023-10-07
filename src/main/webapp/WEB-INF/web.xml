@@ -6,12 +6,20 @@
         </welcome-file>
     </welcome-file-list>
     <servlet>
-        <servlet-name>HelloServlet</servlet-name>
-        <servlet-class>com.ecommerce.controllers.HelloServlet</servlet-class>
+        <servlet-name>
+            DispatchController
+        </servlet-name>
+        <servlet-class>
+            com.ecommerce.controllers.DispatchController
+        </servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>HelloServlet</servlet-name>
-        <url-pattern>/HelloServlet</url-pattern>
+        <servlet-name>
+            DispatchController
+        </servlet-name>
+        <url-pattern>
+            /DispatchController
+        </url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
