@@ -2,19 +2,47 @@ package com.ecommerce.models;
 
 import java.io.Serializable;
 public class LoginDTO implements Serializable {
+    private String firstName;
+    private String lastName;
+    private String username;
     private String email;
     private String password;
     private String role;
-    private String account_status;
-
+    
     public LoginDTO() {
     }
 
-    public LoginDTO(String email, String password, String role, String account_status) {
+    public LoginDTO(String firstName, String lastName, String username, String email, String password, String role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
-        this.account_status = account_status;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -41,11 +69,8 @@ public class LoginDTO implements Serializable {
         this.role = role;
     }
 
-    public String getAccount_status() {
-        return account_status;
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 
-    public void setAccount_status(String account_status) {
-        this.account_status = account_status;
-    }
 }
