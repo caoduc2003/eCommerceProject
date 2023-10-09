@@ -1,6 +1,7 @@
 package com.ecommerce.controllers;
 
 import com.ecommerce.DAO.LoginDAO;
+import com.ecommerce.models.LoginDTO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -30,11 +31,12 @@ public class LoginController extends HttpServlet {
                 url = LOGIN_PAGE;
             } else if (button.equals("Login")) {
                 LoginDAO dao = new LoginDAO();
-                boolean result = dao.checkLogin(username, password);
-                if (result) {
+                LoginDTO account = dao.checkLogin(username, password);
+                if (account != null) {
                     url = HOME_PAGE;
                     HttpSession session = request.getSession();
-                    session.setAttribute("USERNAME", username);
+                    session.setAttribute("fullName", account.getFullName());
+                    session.setAttribute("email", account.getEmail());
                 } // End if username and password matched
             }
         } catch (SQLException | ClassNotFoundException ex) {
@@ -42,9 +44,9 @@ public class LoginController extends HttpServlet {
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            response.sendRedirect(url);
-//            RequestDispatcher rd = request.getRequestDispatcher(url);
-//            rd.forward(request, response);
+//            response.sendRedirect(url);
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
         }
 
     }
