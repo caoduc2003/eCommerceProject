@@ -2,6 +2,10 @@
     response.setHeader("Cache-Control","no-cache, no-store, must-revalidate");
     response.setHeader("Pragma","no-cache");
 %>
+
+<%
+    String name = (String) session.getAttribute("fullName");
+%>
     <!DOCTYPE html>
     <html lang="en" data-theme="cupcake">
 
@@ -41,6 +45,9 @@
 
         <!-- navigation bar here -->
         <div class="navbar bg-base-100 justify-around fixed z-10">
+            <div>
+                <%=name%>
+            </div>
             <div>
                 <a class="btn btn-ghost normal-case text-xl">Webbanhang.com</a>
             </div>
