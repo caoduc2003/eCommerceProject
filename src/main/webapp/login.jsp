@@ -4,7 +4,7 @@
     response.setHeader("Pragma","no-cache");
 %>
 <!DOCTYPE html>
-<html lang="en" data-theme="cupcake">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,9 +12,8 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.1/dist/full.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/d2b9bc7cdd.js" crossorigin="anonymous"></script>
-    <script>
+    <!-- <script>
         module.exports = {
-            //...
 
             // add daisyUI plugin
             plugins: [require("daisyui")],
@@ -30,13 +29,11 @@
                 prefix: "", // prefix for daisyUI classnames (components, modifiers and responsive class names. Not colors)
                 logs: true, // Shows info about daisyUI version and used config in the console when building your CSS
             },
-
-            //...
         }
-    </script>
+    </script> -->
 </head>
 
-<body>
+<body class="">
     <!-- navbar fixed here -->
     <div class="navbar bg-base-100 fixed top-0 m-0 flex justify-around z-10">
         <!-- " Logo (or Breadcrumb :D)" -->
@@ -55,7 +52,7 @@
     </div>
     <!-- main content -->
     <div>
-        <img src="asset/images/login_background.jpg" alt="Shopping background" class="absolute">
+        <img src="asset/images/Login/login_background.jpg" alt="Cart and white background" class="absolute">
     </div>
     <div class="hero min-h-screen bg-base-200">
         <div class="hero-content flex-col justify-between lg:flex-row-reverse">

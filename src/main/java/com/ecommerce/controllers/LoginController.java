@@ -26,6 +26,8 @@ public class LoginController extends HttpServlet {
         String button = request.getParameter("btAction");
         String username = request.getParameter("txtEmail");
         String password = request.getParameter("txtPassword");
+
+
         try {
             if (button == null) {
                 url = LOGIN_PAGE;
