@@ -1,18 +1,13 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: brian
-  Date: 10/12/2023
-  Time: 3:56 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%-- Created by IntelliJ IDEA. User: brian Date: 10/12/2023 Time: 3:56 PM To
+change this template use File | Settings | File Templates. --%> <%@ page
+contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
       href="https://cdn.jsdelivr.net/npm/daisyui@3.8.1/dist/full.css"
       rel="stylesheet"
       type="text/css"
@@ -42,10 +37,191 @@
         },
       };
     </script>
-  <title>Checkout</title>
-</head>
-<body>
-  <%@ include file="Webpage-components/navbar.jsp"%>
-  <%@ include file="Webpage-components/footer.jsp"%>
-</body>
+    <title>Checkout</title>
+  </head>
+  <body>
+    <%@ include file="Webpage-components/navbar.jsp"%>
+    <main class="container mx-auto">
+      <!-- Breadcrumb -->
+      <div class="pt-4">
+        <div class="text-base breadcrumbs">
+          <ul>
+            <li><a>Home</a></li>
+            <li><a>Documents</a></li>
+            <li><a>Cart</a></li>
+            <li class="text-slate-500">Checkout</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Checkout section -->
+      <div class="mt-4">
+        <div class="grid grid-cols-[55%_minmax(30%,_1fr)]">
+          <!-- Left side -->
+          <div class="w-full h-full">
+            <div>
+              <h1 class="text-2xl font-bold">Checkout</h1>
+            </div>
+
+            <div class="divider"></div>
+
+            <div>
+              <h2 class="text-base font-semibold">Shipping info</h2>
+            </div>
+
+            <div class="name-section flex items-center gap-4 mt-7">
+              <div class="form-control w-full">
+                <label class="label">
+                  <span class="label-text">Firstname</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Firstname"
+                  class="input input-bordered w-full"
+                />
+              </div>
+
+              <div class="form-control w-full">
+                <label class="label">
+                  <span class="label-text">Lastname</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Lastname"
+                  class="input input-bordered w-full"
+                />
+              </div>
+            </div>
+
+            <div class="contact-section flex gap-4">
+              <div class="form-control w-full min-w-[65%]">
+                <label class="label">
+                  <span class="label-text">Email</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Email"
+                  class="input input-bordered w-full"
+                />
+              </div>
+
+              <!-- copy this block for easy styling! -->
+              <div class="form-control w-full">
+                <label class="label">
+                  <span class="label-text">Phone</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Phone number"
+                  class="input input-bordered w-full"
+                />
+              </div>
+            </div>
+
+            <div class="address-section">
+              <div class="form-control w-full">
+                <label class="label">
+                  <span class="label-text">Address</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Address"
+                  class="input input-bordered w-full"
+                />
+              </div>
+
+              <div class="flex gap-4">
+                <div class="form-control w-1/3">
+                  <label class="label">
+                    <span class="label-text">Country</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Country"
+                    class="input input-bordered w-full"
+                  />
+                </div>
+                <div class="form-control w-1/3">
+                  <label class="label">
+                    <span class="label-text">City</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="City"
+                    class="input input-bordered w-full"
+                  />
+                </div>
+                <div class="form-control w-1/3">
+                  <label class="label">
+                    <span class="label-text">District</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="District"
+                    class="input input-bordered w-full"
+                  />
+                </div>
+              </div>
+
+            <div class="flex gap-32 mt-6">
+              <div class="form-control w-fit">
+                <label class="label cursor-pointer gap-x-2">
+                  <input type="checkbox" checked="checked" class="checkbox checkbox-primary checkbox-xs" />
+                  <span class="label-text">Save this address to your address list</span>
+                </label>
+              </div>
+              <div class="form-control w-fit">
+                <label class="label cursor-pointer gap-x-2">
+                  <input type="checkbox" checked="checked" class="checkbox checkbox-primary checkbox-xs" />
+                  <span class="label-text">Use this address as default</span>
+                </label>
+              </div>
+            </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SHIPPING METHOD -->
+            <div>
+              <h2 class="text-base font-semibold">Shipping method</h2>
+            </div>
+
+            <div class="Shipping-method flex gap-4 pt-7">
+              <div class="card w-1/2 bg-base-200 card-bordered border-black">
+                <div class="card-actions absolute right-4 top-5">
+                  <input type="radio" name="Shipping-type" class="radio radio-primary" checked />
+                </div>
+                <div class="card-body">
+                  <h2 class="card-title">Standard</h2>
+                  <p>From 4-5 bussiness days</p>
+                  <p>Shipping unit: GHTK</p>
+                  <h2 class="font-thin">23,000đ</h2>
+                </div>
+              </div>
+
+              <div class="card w-1/2 bg-base-200 card-bordered border-black">
+                <div class="card-actions absolute right-4 top-5">
+                  <input type="radio" name="Shipping-type" class="radio radio-primary" checked />
+                </div>
+                <div class="card-body">
+                  <h2 class="card-title">Express</h2>
+                  <p>From 2-3 bussiness days</p>
+                  <p>Shipping unit: SPX</p>
+                  <h2 class="font-thin">29,000đ</h2>
+                </div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+            <!-- PAYMENT INFO -->
+            <div>
+              <h2 class="text-base font-semibold">Payment info</h2>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </main>
+    <%@ include file="Webpage-components/footer.jsp"%>
+  </body>
 </html>
