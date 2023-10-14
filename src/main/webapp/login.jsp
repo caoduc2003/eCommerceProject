@@ -12,7 +12,8 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.1/dist/full.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/d2b9bc7cdd.js" crossorigin="anonymous"></script>
-    <!-- <script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.1/dist/cdn.min.js"></script>
+    <script>
         module.exports = {
 
             // add daisyUI plugin
@@ -30,7 +31,7 @@
                 logs: true, // Shows info about daisyUI version and used config in the console when building your CSS
             },
         }
-    </script> -->
+    </script>
 </head>
 
 <body class="">
