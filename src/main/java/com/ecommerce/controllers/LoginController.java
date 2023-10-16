@@ -17,7 +17,7 @@ import java.sql.SQLException;
 public class LoginController extends HttpServlet {
     private static final String INVALID_PAGE = null;
     private static final String LOGIN_PAGE = "login.jsp";
-    private static final String HOME_PAGE = "index.jsp";
+    private static final String HOME_PAGE = "home";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -26,8 +26,6 @@ public class LoginController extends HttpServlet {
         String button = request.getParameter("btAction");
         String username = request.getParameter("txtEmail");
         String password = request.getParameter("txtPassword");
-
-
         try {
             if (button == null) {
                 url = LOGIN_PAGE;
@@ -46,9 +44,7 @@ public class LoginController extends HttpServlet {
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-//            response.sendRedirect(url);
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+            response.sendRedirect(url);
         }
 
     }

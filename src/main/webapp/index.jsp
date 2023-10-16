@@ -1,10 +1,12 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% response.setHeader("Cache-Control","no-cache, no-store, must-revalidate");
 response.setHeader("Pragma","no-cache");%>
 <%
-if(request.getSession().getAttribute("fullName")==null){
+if(request.getSession().getAttribute("fullName")==null && request.getAttribute("allCategories")==null){
 response.sendRedirect("login"); } %>
 <% String name=(String)
 session.getAttribute("fullName"); %>
+
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
   <head>
@@ -233,27 +235,29 @@ session.getAttribute("fullName"); %>
         <!-- Category carousel -->
         <div class="category-carousel">
           <ul class="flex flex-wrap z-10">
-            <li class="w-24 h-28">
-              <a href="#" class="category-item">
-                <div class="flex flex-col items-center w-24 h-28">
-                  <div
-                    class="h-3/4 w-3/4 flex flex-col items-center justify-center"
-                  >
-                    <div class="avatar">
-                      <div class="w-14 rounded-full">
-                        <img
-                          src="./asset/images/Homepage/Carousel/js lol alpha gaming.png"
-                          alt="Category-img"
-                        />
+            <c:forEach items="${allCategories}" var="category">
+              <li class="w-24 h-28">
+                <a href="#" class="category-item">
+                  <div class="flex flex-col items-center w-24 h-28">
+                    <div
+                            class="h-3/4 w-3/4 flex flex-col items-center justify-center"
+                    >
+                      <div class="avatar">
+                        <div class="w-14 rounded-full">
+                          <img
+                                  src="./asset/images/Homepage/Carousel/js lol alpha gaming.png"
+                                  alt="Category-img"
+                          />
+                        </div>
                       </div>
                     </div>
+                    <div class="w-full flex justify-center h-1/4">
+                      <div>Category_1</div>
+                    </div>
                   </div>
-                  <div class="w-full flex justify-center h-1/4">
-                    <div>Category_1</div>
-                  </div>
-                </div>
-              </a>
-            </li>
+                </a>
+              </li>
+            </c:forEach>
           </ul>
         </div>
       </div>

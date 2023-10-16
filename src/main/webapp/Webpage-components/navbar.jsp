@@ -4,7 +4,10 @@ change this template use File | Settings | File Templates. --%>
 contentType="text/html;charset=UTF-8" language="java" %>
 <% String name = (String)
         session.getAttribute("fullName"); %>
-
+<%
+    if(request.getSession().getAttribute("fullName")==null){
+        response.sendRedirect("login"); }
+%>
 <!DOCTYPE html>
 <html data-theme="light">
 <head>
