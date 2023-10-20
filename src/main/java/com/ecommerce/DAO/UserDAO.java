@@ -6,24 +6,23 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.ecommerce.utils.DBHelper;
-import com.ecommerce.models.LoginDTO;
+import com.ecommerce.utils.DBContext;
+import com.ecommerce.models.UserDTO;
 
-public class LoginDAO implements Serializable {
+public class UserDAO extends DBContext {
 
-    public LoginDTO checkLogin(String username, String password)
+    public UserDTO getUser(String username, String password)
             throws SQLException, ClassNotFoundException {
-        Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
             //1. Connect DB
-            con = DBHelper.makeConnection();
-            if (con != null) {
+
+            if (connection != null) {
                 //2. Create SQL String
                 String sql = "SELECT * FROM Users WHERE email = ? AND password = ? ";
                 //3. Create Statement
-                stm = con.prepareStatement(sql);
+                stm = connection.prepareStatement(sql);
                 stm.setString(1, username);
                 stm.setString(2, password);
                 //4. Excute Query
@@ -34,19 +33,11 @@ public class LoginDAO implements Serializable {
                     String lastName = rs.getString("last_name");
                     String email = rs.getString("email");
                     String role = rs.getString("role");
-                    return new LoginDTO(firstName, lastName, username, email, password, role);
+                    return new UserDTO(firstName, lastName, username, email, password, role);
                 }
             }
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }

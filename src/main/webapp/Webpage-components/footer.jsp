@@ -7,7 +7,7 @@
 --%>
 <%@ page
 contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html data-theme="light">
 <head>
     <meta charset="UTF-8" />
@@ -44,9 +44,9 @@ contentType="text/html;charset=UTF-8" language="java" %>
     </script>
     <title>Footer</title>
 </head>
-<body>
+<body> -->
 <footer
-        class="footer footer-center p-10 bg-primary text-primary-content rounded-t-lg mt-24"
+        class="footer footer-center p-10 bg-primary text-primary-content mt-24"
 >
     <aside>
         <svg
@@ -114,5 +114,5 @@ contentType="text/html;charset=UTF-8" language="java" %>
         </div>
     </nav>
 </footer>
-</body>
-</html>
+<!-- </body>
+</html> -->

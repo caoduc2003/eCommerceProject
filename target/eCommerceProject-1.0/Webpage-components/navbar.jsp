@@ -8,7 +8,7 @@ contentType="text/html;charset=UTF-8" language="java" %>
     if(request.getSession().getAttribute("fullName")==null){
         response.sendRedirect("login"); }
 %>
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html data-theme="light">
 <head>
     <meta charset="UTF-8" />
@@ -46,12 +46,12 @@ contentType="text/html;charset=UTF-8" language="java" %>
     <script src="https://unpkg.com/htmx.org@1.9.6" integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni" crossorigin="anonymous"></script>
     <title>Navbar</title>
 </head>
-<body> -->
+<body>
 <div
         class="navbar bg-base-100 flex-col md:justify-around md:flex-row z-10 sticky top-0 left-0 right-0"
 >
     <div>
-        <a href="home" class="btn btn-ghost no-animation" style="font-size: 24px; text-transform: none;">Buylicious</a>
+        <a class="btn btn-ghost no-animation" style="font-size: 24px; text-transform: none;">Buylicious</a>
     </div>
 
     <div class="join xl:w-2/5 md:w-1/2">
@@ -144,5 +144,5 @@ contentType="text/html;charset=UTF-8" language="java" %>
         </div>
     </div>
 </div>
-<!-- </body>
-</html> -->
+</body>
+</html>

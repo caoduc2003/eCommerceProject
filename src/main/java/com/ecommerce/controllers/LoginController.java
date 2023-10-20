@@ -1,8 +1,7 @@
 package com.ecommerce.controllers;
 
-import com.ecommerce.DAO.LoginDAO;
-import com.ecommerce.models.LoginDTO;
-import jakarta.servlet.RequestDispatcher;
+import com.ecommerce.DAO.UserDAO;
+import com.ecommerce.models.UserDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -30,8 +29,8 @@ public class LoginController extends HttpServlet {
             if (button == null) {
                 url = LOGIN_PAGE;
             } else if (button.equals("Login")) {
-                LoginDAO dao = new LoginDAO();
-                LoginDTO account = dao.checkLogin(username, password);
+                UserDAO dao = new UserDAO();
+                UserDTO account = dao.getUser(username, password);
                 if (account != null) {
                     url = HOME_PAGE;
                     HttpSession session = request.getSession();

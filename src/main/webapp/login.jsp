@@ -12,6 +12,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/d2b9bc7cdd.js" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.1/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.6" integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni" crossorigin="anonymous"></script>
     <script>
         module.exports = {
 
@@ -82,11 +83,11 @@
                             </label>
                         </div>
                         <div class="form-control mt-6">
-                            <button class="btn btn-primary" type="submit" name="btAction" value="Login">Login</button>
+                            <button class="btn btn-primary btn-outline" type="submit" name="btAction" value="Login">Login</button>
                         </div>
                         <div class="text-center mt-5">
                             Dont have an account?
-                            <a href="#" class="link link-hover">Sign up</a>
+                            <a href="#" class="link link-hover text-blue-600">Sign up</a>
                         </div>
                     </form>
                 </div>

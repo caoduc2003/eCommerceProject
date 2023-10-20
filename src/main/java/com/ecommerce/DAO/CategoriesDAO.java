@@ -1,31 +1,28 @@
 package com.ecommerce.DAO;
 
 import com.ecommerce.models.CategoriesDTO;
-import com.ecommerce.utils.DBHelper;
-import jakarta.servlet.http.HttpServlet;
+import com.ecommerce.utils.DBContext;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriesDAO extends HttpServlet {
+public class CategoriesDAO extends DBContext {
 
     public List<CategoriesDTO> getAllCategories() throws Exception {
         List<CategoriesDTO> categories = new ArrayList<>();
-        Connection con = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
 
         try {
-            //1. Connect DB
-            con = DBHelper.makeConnection();
-            if (con != null) {
+            if (connection != null) {
                 //2. Create SQL String
                 String sql = "SELECT category_name, description, category_image FROM Categories";
                 //3. Create Statement
-                stm = con.prepareStatement(sql);
+                stm = connection.prepareStatement(sql);
                 //4. Excute Query
                 rs = stm.executeQuery();
                 //5. Process Result
@@ -38,16 +35,8 @@ public class CategoriesDAO extends HttpServlet {
                 }
                 return categories;
             }
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (con != null) {
-                con.close();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }

@@ -1,7 +1,7 @@
 package com.ecommerce.models;
 
 import java.io.Serializable;
-public class LoginDTO implements Serializable {
+public class UserDTO implements Serializable {
     private String firstName;
     private String lastName;
     private String username;
@@ -9,10 +9,10 @@ public class LoginDTO implements Serializable {
     private String password;
     private String role;
     
-    public LoginDTO() {
+    public UserDTO() {
     }
 
-    public LoginDTO(String firstName, String lastName, String username, String email, String password, String role) {
+    public UserDTO(String firstName, String lastName, String username, String email, String password, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
