@@ -1,28 +1,29 @@
 package com.ecommerce.models;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class ProductsDTO implements Serializable {
+public class Products implements Serializable {
     private int productID;
     private String productName;
     private String productDescription;
     private String productImage;
     private int productPrice;
     private int categoryID;
+    private ArrayList<ProductImages> productImages;
 
 
-    public ProductsDTO() {
+    public Products() {
     }
 
-    public ProductsDTO(int productID, String productName, String productDescription, String productImage, int productPrice, int categoryID) {
+    public Products(int productID, String productName, String productDescription, String productImage, int productPrice, int categoryID, ArrayList<ProductImages> productImages) {
         this.productID = productID;
         this.productName = productName;
         this.productDescription = productDescription;
         this.productImage = productImage;
         this.productPrice = productPrice;
         this.categoryID = categoryID;
+        this.productImages = productImages;
     }
 
     public int getProductID() {
@@ -73,15 +74,11 @@ public class ProductsDTO implements Serializable {
         this.categoryID = categoryID;
     }
 
-    @Override
-    public String toString() {
-        return "ProductsDTO{" +
-                "productID=" + productID +
-                ", productName='" + productName + '\'' +
-                ", productDescription='" + productDescription + '\'' +
-                ", productImage='" + productImage + '\'' +
-                ", productPrice=" + productPrice +
-                ", categoryID=" + categoryID +
-                '}';
+    public ArrayList<ProductImages> getProductImages() {
+        return productImages;
+    }
+
+    public void setProductImages(ArrayList<ProductImages> productImages) {
+        this.productImages = productImages;
     }
 }

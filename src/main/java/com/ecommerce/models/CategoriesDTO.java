@@ -1,19 +1,31 @@
 package com.ecommerce.models;
 
-import java.io.Serializable;
-
-public class CategoriesDTO implements Serializable {
+public class CategoriesDTO {
+    private int categoryID;
     private String categoryName;
     private String categoryDescription;
     private String categoryImage;
+    private int totalProducts;
+    private boolean isActive;
 
-    public CategoriesDTO(String categoryName) {
+    public CategoriesDTO() {
     }
 
-    public CategoriesDTO(String categoryName, String categoryDescription, String categoryImage) {
+    public CategoriesDTO(int categoryID, String categoryName, String categoryDescription, String categoryImage, int totalProducts, boolean isActive) {
+        this.categoryID = categoryID;
         this.categoryName = categoryName;
         this.categoryDescription = categoryDescription;
         this.categoryImage = categoryImage;
+        this.totalProducts = totalProducts;
+        this.isActive = isActive;
+    }
+
+    public int getCategoryID() {
+        return categoryID;
+    }
+
+    public void setCategoryID(int categoryID) {
+        this.categoryID = categoryID;
     }
 
     public String getCategoryName() {
@@ -40,4 +52,19 @@ public class CategoriesDTO implements Serializable {
         this.categoryImage = categoryImage;
     }
 
+    public int getTotalProducts() {
+        return totalProducts;
+    }
+
+    public void setTotalProducts(int totalProducts) {
+        this.totalProducts = totalProducts;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
 }

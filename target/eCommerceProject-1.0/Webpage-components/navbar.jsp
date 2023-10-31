@@ -1,14 +1,15 @@
-<%-- Created by IntelliJ IDEA. User: brian Date: 10/12/2023 Time: 3:46 PM To
+<%@ page import="com.ecommerce.models.User" %><%-- Created by IntelliJ IDEA. User: brian Date: 10/12/2023 Time: 3:46 PM To
 change this template use File | Settings | File Templates. --%>
 <%@ page
 contentType="text/html;charset=UTF-8" language="java" %>
-<% String name = (String)
-        session.getAttribute("fullName"); %>
 <%
-    if(request.getSession().getAttribute("fullName")==null){
-        response.sendRedirect("login"); }
+    if (session.getAttribute("user") == null) {
+        response.sendRedirect("login.jsp");
+    }
+        User user = (User) session.getAttribute("user");
+        String name = user.getFullName();
 %>
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html data-theme="light">
 <head>
     <meta charset="UTF-8" />
@@ -46,12 +47,12 @@ contentType="text/html;charset=UTF-8" language="java" %>
     <script src="https://unpkg.com/htmx.org@1.9.6" integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni" crossorigin="anonymous"></script>
     <title>Navbar</title>
 </head>
-<body>
+<body> -->
 <div
         class="navbar bg-base-100 flex-col md:justify-around md:flex-row z-10 sticky top-0 left-0 right-0"
 >
     <div>
-        <a class="btn btn-ghost no-animation" style="font-size: 24px; text-transform: none;">Buylicious</a>
+        <a href="home" class="btn btn-ghost no-animation" style="font-size: 24px; text-transform: none;">Buylicious</a>
     </div>
 
     <div class="join xl:w-2/5 md:w-1/2">
@@ -104,7 +105,12 @@ contentType="text/html;charset=UTF-8" language="java" %>
                     <span class="font-bold text-lg">8 Items</span>
                     <span class="text-info">Subtotal: $999</span>
                     <div class="card-actions">
-                        <button class="btn btn-primary btn-block">View cart</button>
+                        <button class="btn btn-primary btn-block" onclick="viewCart()">View cart</button>
+                        <script>
+                            function viewCart() {
+                                window.location.href = "cart";
+                            }
+                        </script>
                     </div>
                 </div>
             </div>
@@ -133,16 +139,16 @@ contentType="text/html;charset=UTF-8" language="java" %>
                     class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
                 <li>
-                    <a class="justify-between">
+                    <a href="profile" class="justify-between">
                         Profile
                         <span class="badge">New</span>
                     </a>
                 </li>
                 <li><a>Settings</a></li>
-                <li><a>Logout</a></li>
+                <li><a href="logout">Logout</a></li>
             </ul>
         </div>
     </div>
 </div>
-</body>
-</html>
+<!-- </body>
+</html> -->

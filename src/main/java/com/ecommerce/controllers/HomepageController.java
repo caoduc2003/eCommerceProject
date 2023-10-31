@@ -6,11 +6,10 @@
 package com.ecommerce.controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import com.ecommerce.DAO.CategoriesDAO;
-import com.ecommerce.models.CategoriesDTO;
+import com.ecommerce.models.Categories;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -52,7 +51,7 @@ public class HomepageController extends HttpServlet {
         }
         try {
             CategoriesDAO dao = new CategoriesDAO();
-            List<CategoriesDTO> allCategories = dao.getAllCategories();
+            List<Categories> allCategories = dao.getAllCategories();
             request.setAttribute("allCategories", allCategories);
             url = HOME_PAGE;
         } catch (Exception e) {

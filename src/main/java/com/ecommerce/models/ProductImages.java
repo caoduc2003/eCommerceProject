@@ -1,6 +1,5 @@
 package com.ecommerce.models;
 
-import javax.swing.*;
 
 public class ProductImages {
     private int productImageID;

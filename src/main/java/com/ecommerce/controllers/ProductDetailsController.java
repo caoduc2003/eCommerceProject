@@ -6,11 +6,11 @@
 package com.ecommerce.controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import com.ecommerce.DAO.ProductsDAO;
-import com.ecommerce.models.ProductsDTO;
+import com.ecommerce.models.CartItemDTO;
+import com.ecommerce.models.Products;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -33,27 +33,15 @@ public class ProductDetailsController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
 
-    protected void productsByCategoryRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try{
-            ProductsDAO dao = new ProductsDAO();
-            int categoryID = Integer.parseInt(request.getParameter("id"));
-            List<ProductsDTO> products = dao.getProductsByCategory(categoryID);
-            request.setAttribute("productsByCategory", products);
-        } catch (Exception e){
-            e.printStackTrace();
-        } finally {
-            RequestDispatcher rd = request.getRequestDispatcher("ProductsByCategory.jsp");
-            rd.forward(request, response);
-        }
-    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try{
             ProductsDAO dao = new ProductsDAO();
             int productID = Integer.parseInt(request.getParameter("id"));
-            ProductsDTO product = dao.getProduct(productID);
+            Products product = dao.getProduct(productID);
+            CartItemDTO cart = new CartItemDTO();
             request.setAttribute("productDetails", product);
         } catch (Exception e){
             e.printStackTrace();

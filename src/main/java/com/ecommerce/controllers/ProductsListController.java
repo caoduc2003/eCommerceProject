@@ -6,13 +6,12 @@
 package com.ecommerce.controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import com.ecommerce.DAO.CategoriesDAO;
 import com.ecommerce.DAO.ProductsDAO;
-import com.ecommerce.models.CategoriesDTO;
-import com.ecommerce.models.ProductsDTO;
+import com.ecommerce.models.Categories;
+import com.ecommerce.models.Products;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -41,8 +40,8 @@ public class ProductsListController extends HttpServlet {
         try {
             ProductsDAO dao = new ProductsDAO();
             CategoriesDAO catDAO = new CategoriesDAO();
-            List<ProductsDTO> listProducts = dao.getAllProducts();
-            List<CategoriesDTO> listCategories = catDAO.getAllCategories();
+            List<Products> listProducts = dao.getAllProducts();
+            List<Categories> listCategories = catDAO.getAllCategories();
             request.setAttribute("allProducts", listProducts);
             request.setAttribute("allCategories", listCategories);
         } catch (Exception e) {

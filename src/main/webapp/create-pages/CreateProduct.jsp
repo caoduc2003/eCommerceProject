@@ -46,7 +46,7 @@
   <title>Document</title>
 </head>
 <body>
-<%@ include file="Webpage-components/navbar.jsp"%>
-<%@ include file="Webpage-components/footer.jsp"%>
+<%@ include file="../Webpage-components/navbar.jsp"%>
+<%@ include file="../Webpage-components/footer.jsp"%>
 </body>
 </html>
