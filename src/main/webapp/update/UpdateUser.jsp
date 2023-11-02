@@ -168,10 +168,10 @@
                                                     </div>
                                                     <select class="select select-bordered rounded-none w-full max-w-xs"
                                                         id="userRole">
-                                                        <option <c:if test="${u.role == 'Admin'}">selected
+                                                        <option value="admin" <c:if test="${u.role == 'Admin'}">selected
                                                             </c:if>>Admin
                                                         </option>
-                                                        <option <c:if test="${u.role == 'User'}">selected</c:if>
+                                                        <option value="user" <c:if test="${u.role == 'User'}">selected</c:if>
                                                             >User
                                                         </option>
                                                     </select>
@@ -225,11 +225,11 @@
                                                     </div>
                                                     <select class="select select-bordered rounded-none w-full max-w-xs"
                                                         id="accStatus">
-                                                        <option <c:if test="${u.accountStatus == 'Active'}">
+                                                        <option value="active" <c:if test="${u.accountStatus == 'Active'}">
                                                             selected
                                                             </c:if>>Active
                                                         </option>
-                                                        <option <c:if test="${u.accountStatus == 'Banned'}">
+                                                        <option value="banned" <c:if test="${u.accountStatus == 'Banned'}">
                                                             selected</c:if>
                                                             >Banned
                                                         </option>
@@ -252,7 +252,7 @@
                                         </div>
                                         <div x-data>
                                             <button class="btn btn-primary btn-outline btn-sm w-24"
-                                                @click="openFilePicker" onchange="convertAndSetBase64()">
+                                                @click="openFilePicker">
                                                 Change
                                             </button>
                                             <input x-ref="filePicker" type="file" class="hidden"

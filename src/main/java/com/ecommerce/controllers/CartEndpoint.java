@@ -1,27 +1,43 @@
 package com.ecommerce.controllers;
 
+import com.ecommerce.DAO.CartDAO;
 import com.ecommerce.models.User;
+import com.ecommerce.models.jsonModels.WSCartRequest;
+import com.ecommerce.models.jsonModels.WSCartUpdate;
+import com.google.gson.Gson;
 import jakarta.websocket.*;
 import jakarta.websocket.server.ServerEndpoint;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 @ServerEndpoint("/cart-preview")
 public class CartEndpoint {
+    static Set<Session> users = Collections.synchronizedSet(new HashSet<>());
     @OnOpen
     public void onOpen(Session session) {
-        String sessionId = session.getId();
-        System.out.println("Open Connection ... " + sessionId);
-//        // Get cart data for user
-//        int cartCount = getCartCount(session.getId());
-//        double total = getCartTotal(session.getId());
-//
-//        // Send initial data
-//        session.getBasicRemote().sendText(jsonData);
-
+        users.add(session);
+        System.out.println("Active Connections: " + users.size());
     }
 
     @OnMessage
     public void onMessage(String message, Session session) {
-        System.out.println("Message from the client: " + message);
+        try {
+            Gson gson = new Gson();
+            WSCartRequest wscr = gson.fromJson(message, WSCartRequest.class);
+            CartDAO dao = new CartDAO();
+            if (wscr.getAction().equals("update-cart")) {
+                int itemCount = dao.getTotalCartItemsByUserID(wscr.getUserID());
+                int cartTotal = dao.getTotalCartItemsPriceByUserID(wscr.getUserID());
+                String cartUpdate = gson.toJson(new WSCartUpdate(itemCount, cartTotal));
+                for (Session s : users) {
+                    s.getBasicRemote().sendText(cartUpdate);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @OnError
@@ -30,7 +46,8 @@ public class CartEndpoint {
     }
 
     @OnClose
-    public void onClose() {
+    public void onClose(Session session) {
         System.out.println("Close Connection ...");
+        users.remove(session);
     }
 }

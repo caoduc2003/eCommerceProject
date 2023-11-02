@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class CartDAO extends DBContext {
-    public void addToCart(int userID, int productID, int quantity) throws Exception {
+    public int addToCart(int userID, int productID, int quantity) throws Exception {
         try {
             String sql = "INSERT INTO Cart(cart_id,user_id, product_id, quantity)\n" +
                     "VALUES\n" +
@@ -28,9 +28,13 @@ public class CartDAO extends DBContext {
             ps.setInt(3, productID);
             ps.setInt(4, quantity);
             ps.executeUpdate();
+            if (ps.getUpdateCount() > 0) {
+                return 1;
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        return 0;
     }
 
     public ArrayList<CartItemDTO> getCartItemsByUserID(int userID) throws Exception {
@@ -67,7 +71,7 @@ public class CartDAO extends DBContext {
                 String description = rs.getString("Description");
                 String productImage = rs.getString("ProductImage");
                 int price = rs.getInt("Price");
-                Products product = new Products(productId, productName, description, productImage, price, categoryId, null);
+                Products product = new Products(productId, productName, description, productImage, price, categoryId, null, null);
                 CartItemDTO cartItem = new CartItemDTO(product, quantity, cartId, userId, javaDateCreated);
                 cartItems.add(cartItem);
             }

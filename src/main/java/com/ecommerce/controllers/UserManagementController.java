@@ -3,6 +3,7 @@ package com.ecommerce.controllers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.time.LocalDate;
 
 import com.ecommerce.DAO.UserDAO;
 import com.ecommerce.models.User;
@@ -40,6 +41,9 @@ public class UserManagementController extends HttpServlet {
                         request.setAttribute("user", dao.getUserByID(id));
                         request.getRequestDispatcher("/update/UpdateUser.jsp").forward(request, response);
                         break;
+                    case "create":
+                        request.getRequestDispatcher("/create/CreateUser.jsp").forward(request, response);
+                        break;
                     default:
                         request.getRequestDispatcher("errorPage.jsp").forward(request, response);
                         break;
@@ -59,6 +63,28 @@ public class UserManagementController extends HttpServlet {
             UserDAO dao = new UserDAO();
             String path = request.getPathInfo().substring(1);
                 switch (path) {
+                    case "submit-create":
+                        String newUsername = request.getParameter("username");
+                        String newFirstName = request.getParameter("firstName");
+                        String newLastName = request.getParameter("lastName");
+                        String newEmail = request.getParameter("email");
+                        String newPhoneNum = request.getParameter("phoneNum");
+                        String newGender = request.getParameter("gender");
+                        String dobString = request.getParameter("dob");
+                        LocalDate ld = LocalDate.parse(dobString);
+                        Date newDob = Date.valueOf(ld);
+                        String newRole = request.getParameter("role");
+                        String newAccountStatus = request.getParameter("accountStatus");
+                        String newProfilePicture = request.getParameter("profilePicture");
+                        String newPassword = request.getParameter("password");
+                        Date newDateCreated = Date.valueOf(LocalDate.now());
+                        if(dao.addUser(new User(-1, newFirstName, newLastName, newUsername, newDob, newEmail, newPassword, newRole, newPhoneNum,
+                                newDateCreated, newGender, newAccountStatus, newProfilePicture))){
+                            out.print("created");
+                        } else {
+                            out.print("error");
+                        }
+                        break;
                     case "submit":
                         int id = Integer.parseInt(request.getParameter("userID"));
                         System.out.println(id);

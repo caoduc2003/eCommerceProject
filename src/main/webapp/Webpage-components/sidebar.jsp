@@ -1,9 +1,9 @@
-<div class="h-screen w-64 bg-primary flex flex-col rounded-lg fixed left-0 top-0 text-base">
-    <div class="w-full h-12 flex justify-start items-center text-[#f9ffff]">
+<div class="h-screen w-64 bg-base-100 flex flex-col rounded-none fixed left-0 top-0 text-base border">
+    <div class="w-full h-12 flex justify-start items-center">
         <p class="pl-4 text-xl">Hello, Username</p>
     </div>
     <div>
-        <ul class="menu bg-primary w-full p-0 [&_li>*]:rounded-none text-[#f9ffff]">
+        <ul class="menu w-full p-0 [&_li>*]:rounded-none">
             <li><a href="${pageContext.request.contextPath}/account">Profile</a></li>
             <li><a href="${pageContext.request.contextPath}/order">Your order</a></li>
             <li>

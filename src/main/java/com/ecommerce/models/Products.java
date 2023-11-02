@@ -1,6 +1,7 @@
 package com.ecommerce.models;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class Products implements Serializable {
@@ -10,19 +11,21 @@ public class Products implements Serializable {
     private String productImage;
     private int productPrice;
     private int categoryID;
+    private Date dateCreated;
     private ArrayList<ProductImages> productImages;
 
 
     public Products() {
     }
 
-    public Products(int productID, String productName, String productDescription, String productImage, int productPrice, int categoryID, ArrayList<ProductImages> productImages) {
+    public Products(int productID, String productName, String productDescription, String productImage, int productPrice, int categoryID, Date dateCreated, ArrayList<ProductImages> productImages) {
         this.productID = productID;
         this.productName = productName;
         this.productDescription = productDescription;
         this.productImage = productImage;
         this.productPrice = productPrice;
         this.categoryID = categoryID;
+        this.dateCreated = dateCreated;
         this.productImages = productImages;
     }
 
@@ -74,11 +77,33 @@ public class Products implements Serializable {
         this.categoryID = categoryID;
     }
 
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
     public ArrayList<ProductImages> getProductImages() {
         return productImages;
     }
 
     public void setProductImages(ArrayList<ProductImages> productImages) {
         this.productImages = productImages;
+    }
+
+    @Override
+    public String toString() {
+        return "Products{" +
+                "productID=" + productID +
+                ", productName='" + productName + '\'' +
+                ", productDescription='" + productDescription + '\'' +
+                ", productImage='" + productImage + '\'' +
+                ", productPrice=" + productPrice +
+                ", categoryID=" + categoryID +
+                ", dateCreated=" + dateCreated +
+                ", productImages=" + productImages +
+                '}';
     }
 }

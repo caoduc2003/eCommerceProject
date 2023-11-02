@@ -20,7 +20,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import javax.jws.soap.SOAPBinding;
 
 /**
  *
@@ -80,24 +79,31 @@ public class CartController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        User currUser = (User) session.getAttribute("user");
-        String path = request.getPathInfo().substring(1);
-
-        switch (path){
-            case "add":
-                int productID = Integer.parseInt(String.valueOf(request.getParameter("productId")));
-                int quantity = Integer.parseInt(request.getParameter("quantity"));
-                CartDAO cartDAO = new CartDAO();
-                try {
-                    cartDAO.addToCart(currUser.getUserID(), productID, quantity);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            default:
-                processRequest(request,response);
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()){
+            HttpSession session = request.getSession();
+            User currUser = (User) session.getAttribute("user");
+            String path = request.getPathInfo().substring(1);
+            switch (path){
+                case "add":
+                    int productID = Integer.parseInt(String.valueOf(request.getParameter("productId")));
+                    int quantity = Integer.parseInt(request.getParameter("quantity"));
+                    CartDAO cartDAO = new CartDAO();
+                    int status = cartDAO.addToCart(currUser.getUserID(), productID, quantity);
+                    if (status == 1) {
+                        out.print("added");
+                    } else {
+                        out.println("error");
+                    }
+                    break;
+                default:
+                    processRequest(request,response);
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     /** 

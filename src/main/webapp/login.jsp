@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webbanhang.com|Login</title>
+    <title>Buylicious|Login</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.1/dist/full.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/d2b9bc7cdd.js" crossorigin="anonymous"></script>
@@ -15,10 +15,8 @@
     <script src="https://unpkg.com/htmx.org@1.9.6" integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni" crossorigin="anonymous"></script>
     <script>
         module.exports = {
-
             // add daisyUI plugin
             plugins: [require("daisyui")],
-
             // daisyUI config (optional - here are the default values)
             daisyui: {
                 themes: ["light", "dark", "cupcake"], // true: all themes | false: only light + dark | array: specific themes like this ["light", "dark", "cupcake"]
@@ -39,7 +37,7 @@
     <div class="navbar bg-base-100 fixed top-0 m-0 flex justify-around z-10">
         <!-- " Logo (or Breadcrumb :D)" -->
         <div>
-            <a class="btn btn-ghost normal-case text-xl">Webbanhang.com</a>
+            <a class="btn btn-ghost normal-case text-xl">Buylicious</a>
             <span class="ml-1 mr-4">|</span>
             <span class="mt-1">Login</span>
         </div>
@@ -87,7 +85,7 @@
                         </div>
                         <div class="text-center mt-5">
                             Dont have an account?
-                            <a href="#" class="link link-hover text-blue-600">Sign up</a>
+                            <a href="${pageContext.request.contextPath}/register" class="link link-hover text-blue-600">Sign up</a>
                         </div>
                     </form>
                 </div>

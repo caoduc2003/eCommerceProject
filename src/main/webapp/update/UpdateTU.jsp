@@ -14,6 +14,7 @@
                 <script src="https://cdn.tailwindcss.com"></script>
                 <script src="https://kit.fontawesome.com/d2b9bc7cdd.js" crossorigin="anonymous"></script>
                 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.1/dist/cdn.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                 <script>
                     module.exports = {
                         plugins: [require("daisyui")],

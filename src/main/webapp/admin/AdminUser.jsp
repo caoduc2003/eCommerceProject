@@ -45,11 +45,19 @@
                     </div>
                     <!-- content -->
                     <div id="page-content" class="ml-64 p-5">
-                        <div>
-                            <h2 class="text-2xl font-bold">User Management</h2>
-                            <p class="text-base font-thin">
-                                Manage user accounts and roles
-                            </p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h2 class="text-2xl font-bold">User Management</h2>
+                                <p class="text-base font-thin">
+                                    Manage user accounts and roles
+                                </p>
+                            </div>
+                            <div>
+                                <a class="btn btn-primary" href="${pageContext.request.contextPath}/user-management/create">
+                                    <i class="fa-solid fa-plus"></i>
+                                    <span>Create User</span>
+                                </a>
+                            </div>
                         </div>
 
                         <div class="divider"></div>
@@ -96,10 +104,10 @@
                                                 <td>
                                                     <c:choose>
                                                         <c:when test="${user.getRole() == 'Admin'}">
-                                                            <span class="badge badge-primary badge-sm">Admin</span>
+                                                            <span class="badge badge-sm bg-red-600">Admin</span>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <span class="badge badge-secondary badge-sm">User</span>
+                                                            <span class="badge badge-ghost badge-sm">User</span>
                                                         </c:otherwise>
                                                     </c:choose>
 
@@ -113,7 +121,7 @@
                                                             <span class="badge badge-error badge-sm">Banned</span>
                                                         </c:otherwise>
                                                     </c:choose>
-                                                        </td>
+                                                </td>
                                                 <td class="join">
                                                     <a class="btn join-item hover:btn-info"
                                                         href="${pageContext.request.contextPath}/user-management/update?id=${user.getUserID()}">
@@ -148,7 +156,7 @@
                                         'User has been deleted.',
                                         'success'
                                     )
-                    
+
                                     const row = button.closest("tr");
                                     const userID = row.id.split("-")[1]; // Extract the userID from the row ID
                                     console.log(userID);
@@ -158,7 +166,7 @@
                                             id: userID
                                         }
                                     });
-                    
+
                                     row.classList.add("hidden");
                                 }
                             })

@@ -19,7 +19,7 @@ public class CategoriesDAO extends DBContext {
         try {
             if (connection != null) {
                 //2. Create SQL String
-                String sql = "SELECT category_name, description, category_image FROM Categories";
+                String sql = "SELECT category_name, description, category_image, is_active FROM Categories";
                 //3. Create Statement
                 stm = connection.prepareStatement(sql);
                 //4. Excute Query
@@ -29,7 +29,8 @@ public class CategoriesDAO extends DBContext {
                     String categoryName = rs.getString("category_name");
                     String categoryDescription = rs.getString("description");
                     String categoryImage = rs.getString("category_image");
-                    Categories category = new Categories(categoryName, categoryDescription, categoryImage);
+                    boolean isActive = rs.getBoolean("is_active");
+                    Categories category = new Categories(-1,categoryName, categoryDescription, categoryImage, isActive);
                     categories.add(category);
                 }
                 return categories;
@@ -81,5 +82,83 @@ public class CategoriesDAO extends DBContext {
             e.printStackTrace();
         }
         return categories;
+    }
+
+    public Categories getCategoryByID(int id) throws Exception {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            if (connection != null) {
+                //2. Create SQL String
+                String sql = "SELECT category_name, description, category_image, is_active FROM Categories WHERE category_id = ?";
+                //3. Create Statement
+                stm = connection.prepareStatement(sql);
+                stm.setInt(1, id);
+                //4. Excute Query
+                rs = stm.executeQuery();
+                //5. Process Result
+                if (rs.next()) {
+                    String categoryName = rs.getString("category_name");
+                    String categoryDescription = rs.getString("description");
+                    String categoryImage = rs.getString("category_image");
+                    boolean isActive = rs.getBoolean("is_active");
+                    return new Categories(-1,categoryName, categoryDescription, categoryImage, isActive);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean updateCategoryByID(Categories category) throws Exception {
+        PreparedStatement stm = null;
+        try {
+            if (connection != null) {
+                //2. Create SQL String
+                String sql = "UPDATE Categories SET category_name = ?, description = ?, category_image = ?, is_active = ? WHERE category_id = ?";
+                //3. Create Statement
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, category.getCategoryName());
+                stm.setString(2, category.getCategoryDescription());
+                stm.setString(3, category.getCategoryImage());
+                stm.setBoolean(4, category.isActive());
+                stm.setInt(5, category.getCategoryID());
+                //4. Excute Query
+                int row = stm.executeUpdate();
+                //5. Process Result
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean addCategory(Categories c) throws Exception {
+        PreparedStatement stm = null;
+        try {
+            if (connection != null) {
+                //2. Create SQL String
+                String sql = "INSERT INTO Categories(category_name, description, category_image, is_active) VALUES(?,?,?,?)";
+                //3. Create Statement
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, c.getCategoryName());
+                stm.setString(2, c.getCategoryDescription());
+                stm.setString(3, c.getCategoryImage());
+                stm.setBoolean(4, c.isActive());
+                //4. Excute Query
+                int row = stm.executeUpdate();
+                //5. Process Result
+                if (row > 0) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

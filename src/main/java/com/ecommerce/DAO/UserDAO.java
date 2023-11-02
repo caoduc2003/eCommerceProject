@@ -176,4 +176,33 @@ public class UserDAO extends DBContext {
         }
         return 0;
     }
+
+    public boolean addUser(User userObj) throws Exception{
+        PreparedStatement ps = null;
+        try{
+            String sql = "INSERT INTO Users (first_name, last_name, dob, email, password, phone_number, profile_picture, date_created,\n" +
+                    "                   account_status, role, gender, username)\n" +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, userObj.getFirstName());
+            ps.setString(2, userObj.getLastName());
+            ps.setDate(3, userObj.getDob());
+            ps.setString(4, userObj.getEmail());
+            ps.setString(5, userObj.getPassword());
+            ps.setString(6, userObj.getPhoneNum());
+            ps.setString(7, userObj.getProfilePicture());
+            ps.setDate(8, userObj.getDateCreated());
+            ps.setString(9, userObj.getAccountStatus());
+            ps.setString(10, userObj.getRole());
+            ps.setString(11, userObj.getGender());
+            ps.setString(12, userObj.getUsername());
+            int rowUpdate =  ps.executeUpdate();
+            if (rowUpdate > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
