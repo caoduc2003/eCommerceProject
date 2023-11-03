@@ -16,7 +16,7 @@
             LoginController
         </servlet-name>
         <url-pattern>
-            /login
+            /login/*
         </url-pattern>
     </servlet-mapping>
     <session-config>

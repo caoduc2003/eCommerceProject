@@ -39,16 +39,7 @@ public class ProfileController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String path = request.getPathInfo().substring(1);
-
-        switch (path){
-            case "add":
-                System.out.println("add is calling");
-                break;
-            default:
-                processRequest(request, response);
-                break;
-        }
+        processRequest(request, response);
 
     }
 

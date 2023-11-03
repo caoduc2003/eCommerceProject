@@ -41,7 +41,6 @@ public class ProductDetailsController extends HttpServlet {
             ProductsDAO dao = new ProductsDAO();
             int productID = Integer.parseInt(request.getParameter("id"));
             Products product = dao.getProduct(productID);
-            CartItemDTO cart = new CartItemDTO();
             request.setAttribute("productDetails", product);
         } catch (Exception e){
             e.printStackTrace();

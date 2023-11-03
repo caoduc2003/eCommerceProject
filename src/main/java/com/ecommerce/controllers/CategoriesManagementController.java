@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import com.ecommerce.DAO.CategoriesDAO;
 import com.ecommerce.DAO.ProductsDAO;
 import com.ecommerce.models.Categories;
+import com.ecommerce.models.User;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -30,6 +32,11 @@ public class CategoriesManagementController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try (PrintWriter out = response.getWriter()) {
+            User u = (User) request.getSession().getAttribute("user");
+            if (u == null || !u.getRole().equals("admin")) {
+                response.sendRedirect(request.getContextPath() + "/home");
+                return;
+            }
             CategoriesDAO categoriesDAO = new CategoriesDAO();
             String path = request.getPathInfo();
             if (path != null && !path.equals("/")) {

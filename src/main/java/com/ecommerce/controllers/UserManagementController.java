@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet(name = "UserManagementController", urlPatterns = {"/user-management/*"})
 public class UserManagementController extends HttpServlet {
@@ -32,6 +33,11 @@ public class UserManagementController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/htmlcharset=UTF-8");
         try(PrintWriter out = response.getWriter()) {
+            User u = (User) request.getSession().getAttribute("user");
+            if (u == null || !u.getRole().equals("admin")) {
+                response.sendRedirect(request.getContextPath() + "/home");
+                return;
+            }
             String path = request.getPathInfo();
             if (path != null && !path.equals("/")) {
                 switch (path.substring(1)) {

@@ -8,6 +8,8 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/Profile.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/create/CreateUser.jsp" value="file://$PROJECT_DIR$/src/main/webapp/create" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/index.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/update/UpdateCategory.jsp" value="file://$PROJECT_DIR$/src/main/webapp/update" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/update/UpdateProduct.jsp" value="file://$PROJECT_DIR$/src/main/webapp/update" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/update/UpdateUser.jsp" value="file://$PROJECT_DIR$/src/main/webapp/update" />
       </map>
     </option>

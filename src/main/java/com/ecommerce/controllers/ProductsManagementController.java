@@ -35,6 +35,11 @@ public class ProductsManagementController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/htmlcharset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            User u = (User) request.getSession().getAttribute("user");
+            if (u == null || !u.getRole().equals("admin")) {
+                response.sendRedirect(request.getContextPath() + "/home");
+                return;
+            }
             ProductsDAO dao = new ProductsDAO();
             CategoriesDAO categoriesDAO = new CategoriesDAO();
             String path = request.getPathInfo();

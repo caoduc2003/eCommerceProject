@@ -31,24 +31,12 @@ public class HomepageController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException      if an I/O error occurs
      */
-    private static final String PRODUCT_CONTROLLER = "productslist";
     private static final String HOME_PAGE = "index.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = null;
-        String btAction = request.getParameter("btAction");
-        if (btAction != null) {
-            switch (btAction) {
-                case "product-list-site":
-                    response.sendRedirect(PRODUCT_CONTROLLER);
-                    break;
-                default:
-                    break;
-            }
-            return;
-        }
         try {
             CategoriesDAO dao = new CategoriesDAO();
             List<Categories> allCategories = dao.getAllCategories();

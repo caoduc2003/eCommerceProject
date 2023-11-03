@@ -11,7 +11,7 @@ import com.ecommerce.models.User;
 
 public class UserDAO extends DBContext {
 
-    public User getUser(String emailP, String password)
+    public User checkLogin(String emailP, String password)
             throws SQLException, ClassNotFoundException {
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -204,5 +204,81 @@ public class UserDAO extends DBContext {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public boolean checkEmail(String email) throws Exception{
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            if (connection != null) {
+                String sql = "SELECT * FROM Users WHERE email = ? ";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, email);
+                rs = stm.executeQuery();
+                if(rs.next()){
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean checkPassword(String password) throws Exception{
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            if (connection != null) {
+                String sql = "SELECT * FROM Users WHERE password = ? ";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, password);
+                rs = stm.executeQuery();
+                if(rs.next()){
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public User getUserByEmail(String email) throws Exception{
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            //1. Connect DB
+
+            if (connection != null) {
+                //2. Create SQL String
+                String sql = "SELECT * FROM Users WHERE email = ? ";
+                //3. Create Statement
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, email);
+                //4. Excute Query
+                rs = stm.executeQuery();
+                //5. Process Result
+                if(rs.next()){
+                    int id = rs.getInt("user_id");
+                    String firstName = rs.getString("first_name");
+                    String lastName = rs.getString("last_name");
+                    String uEmail = rs.getString("email");
+                    String role = rs.getString("role");
+                    String accountStatus = rs.getString("account_status");
+                    Date dateCreated = rs.getDate("date_created");
+                    Date dob = rs.getDate("dob");
+                    String phone = rs.getString("phone_number");
+                    String gender = rs.getString("gender");
+                    String username = rs.getString("username");
+                    String profilePicture = rs.getString("profile_picture");
+                    String password1 = rs.getString("password");
+                    return new User(id,firstName,lastName,username,dob,uEmail,password1,role,phone,dateCreated,gender,accountStatus,profilePicture);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

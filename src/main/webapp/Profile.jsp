@@ -1,6 +1,7 @@
 <%-- Created by IntelliJ IDEA. User: brian Date: 10/12/2023 Time: 3:55 PM To change this template use File | Settings |
   File Templates. --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<% response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");%>
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 
@@ -35,13 +36,11 @@
 </head>
 
 <body>
-
-<%@include file="Webpage-components/sidebar.jsp" %>
-
-
 <div class="ml-64 sticky top-0 right-0">
     <%@include file="Webpage-components/navbar.jsp" %>
 </div>
+
+<%@include file="Webpage-components/sidebar.jsp" %>
 
 <!-- content -->
 <div id="page-content" class="ml-64 p-5">
