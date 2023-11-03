@@ -1,11 +1,14 @@
 <%-- Created by IntelliJ IDEA. User: brian Date: 10/12/2023 Time: 3:55 PM To change this template use File | Settings |
-  File Templates. --%>
+    File Templates. --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <c:set var="cartItems" value="${requestScope.cartItems}"/>
 <c:set var="totalPrice" value="${requestScope.total}"/>
+
+<c:if test="${cartItems.size() < 1 || cartItems == null}">
+    <% response.sendRedirect(request.getContextPath() + "/home");%>
+</c:if>
 
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
@@ -13,7 +16,8 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.1/dist/full.css" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.1/dist/full.css" rel="stylesheet"
+          type="text/css"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/d2b9bc7cdd.js" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.1/dist/cdn.min.js"></script>
@@ -21,6 +25,8 @@
             integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni"
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script>
         module.exports = {
             plugins: [require("daisyui")],
@@ -65,25 +71,26 @@
         </div>
     </div>
 
-    <div class="h-screen pt-2">
+    <div class="h-screen pt-2" id="cart-container">
         <!-- Title -->
         <h1 class="mb-10 text-center text-2xl font-bold">Cart Items</h1>
 
-        <!-- Cart items/Subtotal -->
-        <div class="w-full md:flex md:space-x-6 xl:px-0">
-            <!-- Cart items -->
-            <div class="md:w-2/3">
-                <div class="rounded-lg">
-                    <c:choose>
-                        <c:when test="${cartItems == null}">
-                            <div class="flex justify-center items-center h-96">
-                                <p class="text-2xl text-gray-500">No items in cart</p>
-                            </div>
-                        </c:when>
 
-                        <c:otherwise>
+        <!-- Cart items/Subtotal -->
+        <div class="w-full md:flex md:space-x-6 xl:px-0" id="cart-sub">
+            <c:choose>
+                <c:when test="${cartItems.size() == 0}">
+                    <div class="flex justify-center items-center h-96">
+                        <p class="text-2xl text-black" id="no-items">No items in cart</p>
+                    </div>
+                </c:when>
+
+                <c:otherwise>
+                    <div class="md:w-2/3">
+                        <div class="rounded-lg">
                             <c:forEach items="${cartItems}" var="items">
-                                <div class="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
+                                <div
+                                        class="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
                                     <img src="${items.product.productImage}" alt="product-image"
                                          class="w-full rounded-lg sm:w-40"/>
                                     <div class="sm:ml-4 sm:flex sm:w-full sm:justify-between">
@@ -92,31 +99,36 @@
                                                     ${items.product.productName}
                                             </h2>
                                         </div>
-                                        <div class="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
+                                        <div
+                                                class="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                                             <div class="flex items-center border-gray-100">
-                                  <span
-                                          class="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50">
-                                    -
-                                  </span>
-                                                <input class="h-8 w-8 border bg-white text-center text-xs outline-none"
-                                                       type="number"
-                                                       value="${items.quantity}" min="1"/>
+                                                                        <span
+                                                                                class="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50">
+                                                                            -
+                                                                        </span>
+                                                <input
+                                                        class="h-8 w-8 border bg-white text-center text-xs outline-none"
+                                                        type="number" value="${items.quantity}"
+                                                        min="1"/>
                                                 <span
                                                         class="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50">
-                                    +
-                                  </span>
+                                                                            +
+                                                                        </span>
                                             </div>
                                             <div class="flex items-center space-x-4">
                                                 <p class="text-sm">
                                                     <fmt:setLocale value="vi_VN"/>
                                                     <fmt:formatNumber
                                                             value="${(items.product.productPrice) * (items.quantity)}"
-                                                            type="currency" maxFractionDigits="0" currencySymbol="₫"/>
+                                                            type="currency" maxFractionDigits="0"
+                                                            currencySymbol="₫"/>
                                                 </p>
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                     fill="none" viewBox="0 0 24 24"
                                                      stroke-width="1.5" stroke="currentColor"
                                                      class="h-5 w-5 cursor-pointer duration-150 hover:text-red-500">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                    <path stroke-linecap="round"
+                                                          stroke-linejoin="round"
                                                           d="M6 18L18 6M6 6l12 12"/>
                                                 </svg>
                                             </div>
@@ -124,44 +136,46 @@
                                     </div>
                                 </div>
                             </c:forEach>
-                        </c:otherwise>
-                    </c:choose>
-
-                </div>
-            </div>
-
-            <!-- Subtotal -->
-            <div class="md:w-1/3 flex justify-center">
-                <div class="rounded-lg border bg-white p-6 shadow-md w-[80%]">
-                    <div class="mb-2 flex justify-between">
-                        <p class="text-gray-700">Subtotal</p>
-                        <p class="text-gray-700">
-                            <fmt:setLocale value="vi_VN"/>
-                            <fmt:formatNumber value="${total}" type="currency" maxFractionDigits="0"
-                                              currencySymbol="₫"/>
-                        </p>
-                    </div>
-                    <!-- <div class="flex justify-between">
-                <p class="text-gray-700">Shipping</p>
-                <p class="text-gray-700">$4.99</p>
-              </div> -->
-                    <hr class="my-4"/>
-                    <div class="flex justify-between">
-                        <p class="text-lg font-bold">Total</p>
-                        <div class="">
-                            <p class="mb-1 text-lg font-bold">
-                                <fmt:setLocale value="vi_VN"/>
-                                <fmt:formatNumber value="${total}" type="currency" maxFractionDigits="0"
-                                                  currencySymbol="₫"/>
-                            </p>
-                            <p class="text-sm text-gray-700">including VAT</p>
                         </div>
                     </div>
-                    <div class="w-full mt-4">
-                        <button class="btn btn-primary btn-block" onclick="goCheckout()">checkout</button>
+
+                    <div class="md:w-1/3 flex justify-center">
+                        <div class="rounded-lg border bg-white p-6 shadow-md w-[80%]">
+                            <div class="mb-2 flex justify-between">
+                                <p class="text-gray-700">Subtotal</p>
+                                <p class="text-gray-700">
+                                    <fmt:setLocale value="vi_VN"/>
+                                    <fmt:formatNumber value="${total}" type="currency"
+                                                      maxFractionDigits="0" currencySymbol="₫"/>
+                                </p>
+                            </div>
+
+                            <hr class="my-4"/>
+                            <div class="flex justify-between">
+                                <p class="text-lg font-bold">Total</p>
+                                <div class="">
+                                    <p class="mb-1 text-lg font-bold">
+                                        <fmt:setLocale value="vi_VN"/>
+                                        <fmt:formatNumber value="${total}" type="currency"
+                                                          maxFractionDigits="0" currencySymbol="₫"/>
+                                    </p>
+                                    <p class="text-sm text-gray-700">including VAT</p>
+                                </div>
+                            </div>
+                            <div class="w-full mt-4">
+                                <button class="btn btn-primary btn-block"
+                                        onclick="goCheckout()">checkout
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </c:otherwise>
+            </c:choose>
+            <!-- Cart items -->
+
+
+            <!-- Subtotal -->
+
         </div>
     </div>
 </main>
@@ -169,8 +183,17 @@
     function goCheckout() {
         window.location.href = "checkout";
     }
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+            if (document.getElementById("no-items") != null) {
+                const cartSub = document.getElementById("cart-sub");
+                cartSub.classList.add("justify-center");
+            }
+        }
+    );
 </script>
 <%@ include file="Webpage-components/footer.jsp" %>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>
 
 </html>

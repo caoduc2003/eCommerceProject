@@ -3,6 +3,8 @@ package com.ecommerce.DAO;
 import com.ecommerce.models.CartItemDTO;
 import com.ecommerce.models.OrderPreviewDTO;
 import com.ecommerce.models.TransportUnit;
+import com.ecommerce.models.User;
+import com.ecommerce.models.jsonModels.WSOrderToast;
 import com.ecommerce.utils.DBContext;
 
 import java.sql.PreparedStatement;
@@ -88,7 +90,7 @@ public class OrderProductsDAO extends DBContext {
         }
     }
 
-    public ArrayList<OrderPreviewDTO> getOrderPreviewByUserID(int userID) throws Exception{
+    public ArrayList<OrderPreviewDTO> getOrderPreviewByUserID(int userID) throws Exception {
         PreparedStatement ps = null;
         ResultSet rs = null;
         ArrayList<OrderPreviewDTO> orderPreviewList = new ArrayList<>();
@@ -116,7 +118,7 @@ public class OrderProductsDAO extends DBContext {
             ps = connection.prepareStatement(sql);
             ps.setInt(1, userID);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 OrderPreviewDTO orderPreviewDTO = new OrderPreviewDTO();
                 orderPreviewDTO.setOrderID(rs.getInt("order_id"));
                 orderPreviewDTO.setOrderDate(rs.getDate("order_date"));
@@ -133,9 +135,46 @@ public class OrderProductsDAO extends DBContext {
                 orderPreviewList.add(orderPreviewDTO);
             }
         } catch (Exception e) {
-            System.err.println(e);
+            e.printStackTrace();
         }
         return orderPreviewList;
     }
 
+    public int getLastOrderID() throws Exception {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int lastOrderID = 0;
+        String sql = "select TOP 1 order_id from Orders order by order_id desc";
+        ps = connection.prepareStatement(sql);
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            lastOrderID = rs.getInt("order_id");
+        }
+        return lastOrderID;
+    }
+    public WSOrderToast getOrderToastInfo(int userID) throws Exception {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.getUserByID(userID);
+        try {
+            String sql = "select o.total_price, SUM(od.quantity) as total_quantity\n" +
+                    "from Orders o\n" +
+                    "         join dbo.OrderDetails od on o.order_id = od.order_id\n" +
+                    "where o.order_id = (select top 1 o.order_id\n" +
+                    "                    from Orders o\n" +
+                    "                    order by o.order_id desc)\n" +
+                    "group by o.total_price";
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int totalPrice = rs.getInt("total_price");
+                int totalQuantity = rs.getInt("total_quantity");
+                return new WSOrderToast(user.getFullName(),totalQuantity, totalPrice);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

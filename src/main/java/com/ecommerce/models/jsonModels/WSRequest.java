@@ -1,13 +1,13 @@
 package com.ecommerce.models.jsonModels;
 
-public class WSCartRequest {
+public class WSRequest {
     private String action;
     private int userID;
 
-    public WSCartRequest() {
+    public WSRequest() {
     }
 
-    public WSCartRequest(String action, int userID) {
+    public WSRequest(String action, int userID) {
         this.action = action;
         this.userID = userID;
     }

@@ -1,8 +1,7 @@
 package com.ecommerce.controllers;
 
 import com.ecommerce.DAO.CartDAO;
-import com.ecommerce.models.User;
-import com.ecommerce.models.jsonModels.WSCartRequest;
+import com.ecommerce.models.jsonModels.WSRequest;
 import com.ecommerce.models.jsonModels.WSCartUpdate;
 import com.google.gson.Gson;
 import jakarta.websocket.*;
@@ -25,7 +24,7 @@ public class CartEndpoint {
     public void onMessage(String message, Session session) {
         try {
             Gson gson = new Gson();
-            WSCartRequest wscr = gson.fromJson(message, WSCartRequest.class);
+            WSRequest wscr = gson.fromJson(message, WSRequest.class);
             CartDAO dao = new CartDAO();
             if (wscr.getAction().equals("update-cart")) {
                 int itemCount = dao.getTotalCartItemsByUserID(wscr.getUserID());

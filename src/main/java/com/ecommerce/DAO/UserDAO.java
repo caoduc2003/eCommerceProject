@@ -56,7 +56,6 @@ public class UserDAO extends DBContext {
         ResultSet rs = null;
         try {
             //1. Connect DB
-
             if (connection != null) {
                 //2. Create SQL String
                 String sql = "SELECT * FROM Users WHERE user_id = ? ";

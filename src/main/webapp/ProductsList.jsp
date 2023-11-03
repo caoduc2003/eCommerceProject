@@ -14,6 +14,7 @@
             rel="stylesheet"
             type="text/css"
     />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script
             src="https://kit.fontawesome.com/d2b9bc7cdd.js"
@@ -111,5 +112,6 @@
     </div>
 </main>
 <%@include file="Webpage-components/footer.jsp" %>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>
 </html>

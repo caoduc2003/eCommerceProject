@@ -1,14 +1,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="com.ecommerce.models.User" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%-- Created by IntelliJ IDEA. User: brian Date: 10/12/2023 Time: 3:46 PM To change this template
-    use File | Settings | File Templates. --%>
+<%-- Created by IntelliJ IDEA. User: brian Date: 10/12/2023 Time: 3:46 PM To change this template use File |
+    Settings | File Templates. --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    if (session.getAttribute("user") == null) {
-        response.sendRedirect("login");
-    }
-%>
+<% if (session.getAttribute("user") == null) {
+    response.sendRedirect("login");
+} %>
 <% response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");%>
 <c:set var="currUser" value="${sessionScope.user}"/>
 <div
@@ -48,21 +46,20 @@
                               d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
                         </path>
                     </svg>
-                    <span class="badge badge-sm indicator-item"
-                          id="cart-badge"></span>
+                    <span class="badge badge-sm indicator-item" id="cart-badge"></span>
                 </div>
             </label>
             <div tabindex="0"
                  class="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
                 <div class="card-body">
-                                                    <span class="font-bold text-lg" id="item-count">
-                                                        Items</span>
+                                                <span class="font-bold text-lg" id="item-count">
+                                                    Items</span>
                     <span class="text-info" id="total-amount">
-                                                        Total:
-                                                    </span>
+                                                    Total:
+                                                </span>
                     <div class="card-actions">
-                        <button class="btn btn-primary btn-block"
-                                onclick="viewCart()">View cart
+                        <button class="btn btn-primary btn-block" onclick="viewCart()">View
+                            cart
                         </button>
 
                     </div>
@@ -135,6 +132,47 @@
         console.error("WebSocket error: " + error.message);
     };
 
+    // ========= Toast notification =========
+    const notiSocket = new WebSocket("ws://localhost:8080/eCommerceProject/notification");
+
+    notiSocket.onopen = function () {
+        console.log("Toast is connected");
+    };
+
+    notiSocket.onmessage = function (event) {
+        var toastObj = JSON.parse(event.data);
+        console.log(toastObj);
+        Toastify({
+            text: toastObj.name + " has just ordered " + toastObj.totalItems + " products with a total amount of " + formatCurrency(toastObj.totalPrice)
+                + " from Buylicious!",
+            duration: 10000,
+            close: true,
+            gravity: "bottom", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            className: "w-[350px] break-words",
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            },
+            onClick: function () {
+            } // Callback after click
+        }).showToast();
+    };
+
+    notiSocket.onclose = function (event) {
+        console.log("Toast is closed.");
+    };
+
+    notiSocket.onerror = function (error) {
+        console.error("Toast error: " + error.message);
+    };
+
+    function sendToastNotificationInfo() {
+        notiSocket.send(JSON.stringify({
+            action: "order-toast",
+            userID: id,
+        }));
+    }
 
 
     // ========== Helper function ==========

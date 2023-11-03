@@ -92,7 +92,7 @@
                     </label>
                 </div>
                 <div class="form-control mt-6">
-                    <button class="btn btn-primary btn-outline" name="btAction"
+                    <button class="btn btn-primary btn-outline" name="btAction" id="loginButton"
                             onclick="login()">Login
                     </button>
                 </div>
@@ -110,6 +110,7 @@
 <script>
     const email = document.querySelector('input[name="txtEmail"]');
     const password = document.querySelector('input[name="txtPassword"]');
+    const loginButton = document.getElementById('loginButton');
 
     email.addEventListener('change', function (event) {
         if (email.validity.typeMismatch) {
@@ -203,6 +204,12 @@
                     break;
             }
         });
+    });
+
+    password.addEventListener('keyup', function (event) {
+        if (event.key === 'Enter') {
+            loginButton.click();
+        }
     });
 
 </script>

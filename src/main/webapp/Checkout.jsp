@@ -2,11 +2,14 @@
   File Templates. --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <c:set var="cartItems" value="${requestScope.cartItems}"/>
 <c:set var="totalPrice" value="${requestScope.total}"/>
 <c:set var="transportUnits" value="${requestScope.transportUnits}"/>
 <% response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");%>
+<c:if test="${cartItems.size() < 1 || cartItems == null}">
+    <% response.sendRedirect(request.getContextPath() + "/cart");%>
+</c:if>
+
 
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
@@ -22,7 +25,7 @@
             integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni"
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script>
         module.exports = {
             plugins: [require("daisyui")],
@@ -420,9 +423,10 @@
                 }).then(() => {
                     sendUpdateCartMessage();
                 }).then(() => {
-                    setTimeout(() => {
-                        window.location.href = "${pageContext.request.contextPath}/order";
-                    }, 3000);
+                    sendToastNotificationInfo();
+                    // setTimeout(() => {
+                    //     window.location.href = "${pageContext.request.contextPath}/order";
+                    // }, 3000);
                 })
             } else if (
                 result.dismiss === Swal.DismissReason.cancel
@@ -492,16 +496,19 @@
     }
 
     const uID = "${currUser.userID}";
-    var message = {
-        action: "update-cart",
-        userID: uID
-    };
 
+    // Navbar websocket update cart badge
     function sendUpdateCartMessage() {
-        socket.send(JSON.stringify(message));
+        socket.send(JSON.stringify({
+            action: "update-cart",
+            userID: uID,
+        }));
     }
+
+
 </script>
 <%@ include file="Webpage-components/footer.jsp" %>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>
 
 </html>
