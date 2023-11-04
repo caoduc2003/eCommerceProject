@@ -1,6 +1,7 @@
-package com.ecommerce.models;
+package com.ecommerce.DTO;
 
-import javax.xml.crypto.Data;
+import com.ecommerce.models.ProductImages;
+
 import java.sql.Date;
 import java.util.ArrayList;
 

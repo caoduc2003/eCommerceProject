@@ -1,10 +1,9 @@
 package com.ecommerce.DAO;
 
-import com.ecommerce.models.CartItemDTO;
+import com.ecommerce.DTO.CartItemDTO;
 import com.ecommerce.models.Products;
 import com.ecommerce.utils.DBContext;
 
-import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

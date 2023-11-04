@@ -1,7 +1,7 @@
 package com.ecommerce.DAO;
 
 import com.ecommerce.models.Categories;
-import com.ecommerce.models.CategoriesDTO;
+import com.ecommerce.DTO.CategoriesDTO;
 import com.ecommerce.utils.DBContext;
 
 import java.sql.PreparedStatement;

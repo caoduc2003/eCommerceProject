@@ -1,7 +1,7 @@
 package com.ecommerce.DAO;
 
-import com.ecommerce.models.CartItemDTO;
-import com.ecommerce.models.OrderPreviewDTO;
+import com.ecommerce.DTO.CartItemDTO;
+import com.ecommerce.DTO.OrderPreviewDTO;
 import com.ecommerce.models.TransportUnit;
 import com.ecommerce.models.User;
 import com.ecommerce.models.jsonModels.WSOrderToast;

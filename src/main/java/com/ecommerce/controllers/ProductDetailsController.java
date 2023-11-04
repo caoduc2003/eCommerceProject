@@ -6,10 +6,8 @@
 package com.ecommerce.controllers;
 
 import java.io.IOException;
-import java.util.List;
 
 import com.ecommerce.DAO.ProductsDAO;
-import com.ecommerce.models.CartItemDTO;
 import com.ecommerce.models.Products;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;

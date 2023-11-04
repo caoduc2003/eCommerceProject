@@ -1,4 +1,6 @@
-package com.ecommerce.models;
+package com.ecommerce.DTO;
+
+import com.ecommerce.models.Products;
 
 import java.io.Serializable;
 import java.util.Date;

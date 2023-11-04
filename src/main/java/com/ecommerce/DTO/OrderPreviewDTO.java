@@ -1,4 +1,4 @@
-package com.ecommerce.models;
+package com.ecommerce.DTO;
 
 import java.sql.Date;
 

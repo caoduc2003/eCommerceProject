@@ -1,7 +1,7 @@
 package com.ecommerce.DAO;
 
 import com.ecommerce.models.ProductImages;
-import com.ecommerce.models.ProductPreviewDTO;
+import com.ecommerce.DTO.ProductPreviewDTO;
 import com.ecommerce.models.Products;
 import com.ecommerce.utils.DBContext;
 

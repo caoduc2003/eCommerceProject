@@ -1,4 +1,4 @@
-package com.ecommerce.models;
+package com.ecommerce.DTO;
 
 public class CategoriesDTO {
     private int categoryID;

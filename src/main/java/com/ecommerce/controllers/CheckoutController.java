@@ -1,13 +1,12 @@
 package com.ecommerce.controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import com.ecommerce.DAO.CartDAO;
 import com.ecommerce.DAO.OrderProductsDAO;
 import com.ecommerce.DAO.TransportUnitDAO;
-import com.ecommerce.models.CartItemDTO;
+import com.ecommerce.DTO.CartItemDTO;
 import com.ecommerce.models.TransportUnit;
 import com.ecommerce.models.User;
 import jakarta.servlet.RequestDispatcher;

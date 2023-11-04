@@ -4,10 +4,14 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
+import com.ecommerce.DTO.UserGoogleDTO;
 import com.ecommerce.utils.DBContext;
 import com.ecommerce.models.User;
+
+import static java.time.LocalDate.*;
 
 public class UserDAO extends DBContext {
 
@@ -255,6 +259,91 @@ public class UserDAO extends DBContext {
                 //3. Create Statement
                 stm = connection.prepareStatement(sql);
                 stm.setString(1, email);
+                //4. Excute Query
+                rs = stm.executeQuery();
+                //5. Process Result
+                if(rs.next()){
+                    int id = rs.getInt("user_id");
+                    String firstName = rs.getString("first_name");
+                    String lastName = rs.getString("last_name");
+                    String uEmail = rs.getString("email");
+                    String role = rs.getString("role");
+                    String accountStatus = rs.getString("account_status");
+                    Date dateCreated = rs.getDate("date_created");
+                    Date dob = rs.getDate("dob");
+                    String phone = rs.getString("phone_number");
+                    String gender = rs.getString("gender");
+                    String username = rs.getString("username");
+                    String profilePicture = rs.getString("profile_picture");
+                    String password1 = rs.getString("password");
+                    return new User(id,firstName,lastName,username,dob,uEmail,password1,role,phone,dateCreated,gender,accountStatus,profilePicture);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean checkGoogleUserID(String id) throws Exception{
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            if (connection != null) {
+                String sql = "SELECT * FROM Users WHERE google_user_id = ? ";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, id);
+                rs = stm.executeQuery();
+                if(rs.next()){
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean addGoogleUser(UserGoogleDTO ug) throws Exception {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            if(connection != null){
+                String sql = "INSERT INTO Users (first_name, last_name, email, password, profile_picture, date_created, account_status, role, gender,\n" +
+                        "                   username, google_user_id)\n" +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, ug.getGiven_name());
+                stm.setString(2, ug.getFamily_name());
+                stm.setString(3, ug.getEmail());
+                stm.setString(4, "userGoogle");
+                stm.setString(5, ug.getPicture());
+                stm.setDate(6, Date.valueOf(LocalDate.now()));
+                stm.setString(7, "Active");
+                stm.setString(8, "User");
+                stm.setString(9, "Other");
+                stm.setString(10, ug.getName());
+                stm.setString(11, ug.getId());
+                if(stm.executeUpdate() > 0){
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public User getUserByGoogleID(String googleId) throws Exception {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            if (connection != null) {
+                //2. Create SQL String
+                String sql = "SELECT * FROM Users WHERE google_user_id = ? ";
+                //3. Create Statement
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, googleId);
                 //4. Excute Query
                 rs = stm.executeQuery();
                 //5. Process Result

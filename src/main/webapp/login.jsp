@@ -96,6 +96,10 @@
                             onclick="login()">Login
                     </button>
                 </div>
+                <div class="form-control mt-6">
+                    <a href="https://accounts.google.com/o/oauth2/auth?scope=profile email&redirect_uri=http://localhost:8080/eCommerceProject/login-google&response_type=code&client_id=432080739851-i90lscb3v0n6lrv551n210tise0a6drf.apps.googleusercontent.com&approval_prompt=force" class="btn btn-primary btn-outline">Sign in with Google
+                    </a>
+                </div>
                 <div class="text-center mt-5">
                     Dont have an account?
                     <a href="${pageContext.request.contextPath}/register"
