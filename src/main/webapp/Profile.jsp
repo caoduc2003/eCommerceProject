@@ -2,6 +2,11 @@
   File Templates. --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="u" value="${sessionScope.user}"/>
+<c:set var="sqlDate" value="${u.dob}"/>
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 
@@ -12,6 +17,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/d2b9bc7cdd.js" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.1/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
     <script>
         module.exports = {
             plugins: [require("daisyui")],
@@ -34,114 +42,353 @@
             crossorigin="anonymous"></script>
 
     <title>Profile</title>
+
 </head>
 
 <body>
-<div class="ml-64 sticky top-0 right-0">
+<div class="ml-64 sticky top-0 right-0 z-[1]">
     <%@include file="Webpage-components/navbar.jsp" %>
 </div>
 
 <%@include file="Webpage-components/sidebar.jsp" %>
 
 <!-- content -->
-<div id="page-content" class="ml-64 p-5">
-    <div>
-        <h2 class="text-2xl font-bold">Profile</h2>
-        <p class="text-base font-thin">
-            Manage profile information for account security
-        </p>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="w-full flex">
-        <div class="basis-3/5">
-            <form action="">
+<div id="page-content" class="ml-64 mt-[3rem] flex bg-base-100 items-center justify-center">
+    <div class="w-[95%] bg-base-100 drop-shadow-md pb-10">
+        <div class="w-[94%] pt-10 mx-auto">
+            <div class="flex justify-between">
+                <div class="text-2xl font-semibold">
+                    Update your profile
+                </div>
                 <div>
-                    <div class="flex flex-col gap-y-5">
-                        <div class="flex">
-                            <div class="w-[150px]">
-                                <label for="username" class="label">Username</label>
-                            </div>
-                            <input type="text" id="username" name="username" class="input input-bordered"
-                                   placeholder="Username"
-                                   required/>
-                        </div>
-
-                        <div class="flex">
-                            <div class="w-[150px]">
-                                <label for="firstname" class="label">Name</label>
-                            </div>
-                            <div>
-                                <input type="text" id="firstname" name="firstname" class="input input-bordered"
-                                       placeholder="Firstname" required/>
-                                <input type="text" id="lastname" name="lastname" class="input input-bordered"
-                                       placeholder="Lastname" required/>
-                            </div>
-                        </div>
-
-                        <div class="flex">
-                            <div class="w-[150px]">
-                                <label for="email" class="label">Email</label>
-                            </div>
-                            <input type="email" id="email" name="email" class="input input-bordered" placeholder="Email"
-                                   required/>
-                        </div>
-                        <div class="flex">
-                            <div class="w-[150px]">
-                                <label for="phonenum" class="label">Phone number</label>
-                            </div>
-                            <input type="tel" id="phonenum" name="phonenum" class="input input-bordered"
-                                   placeholder="Phone number" required/>
-                        </div>
-
-                        <div class="flex">
-                            <div class="w-[150px]">
-                                <label for="DoB" class="label">DoB</label>
-                            </div>
-                            <div>
-                                <input type="number" id="DoB" name="date" class="input input-bordered"
-                                       placeholder="Date" required
-                                       min="1" max="31"/>
-                                <input type="number" name="month" class="input input-bordered" placeholder="Month"
-                                       required
-                                       min="1" max="12"/>
-                                <input type="number" name="year" class="input input-bordered" placeholder="Year"
-                                       required
-                                       min="1900" max="2023"/>
-                            </div>
-                        </div>
-                        <div class="flex w-3/4 justify-start ml-[150px]">
-                            <button type="submit" class="btn btn-primary btn-outline w-24">
-                                Save
+                    <ul class="menu menu-horizontal rounded-box gap-2 bg-base-100">
+                        <li>
+                            <button class="btn btn-sm btn-primary" onclick="updateUser()">Save
                             </button>
+                        </li>
+                        <li>
+                            <button class="btn btn-sm btn-error">Cancel</button>
+                        </li>
+                        <li>
+                            <button class="btn btn-sm btn-secondary">Reset</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            <div class="w-[90%] h-[80%] mt-10 mx-auto flex items-center">
+                <div class="basis-3/4">
+                    <form action="">
+                        <div>
+                            <div class="flex flex-col gap-y-5">
+                                <div class="flex">
+                                    <div class="w-[150px] flex justify-end mr-7 shrink-0">
+                                        <label for="username" class="label">Username</label>
+                                    </div>
+                                    <input type="text" id="username" name="username"
+                                           class="input input-bordered rounded-none w-[50%]"
+                                           placeholder="Username" required value="${u.username}"/>
+
+                                </div>
+
+                                <div class="flex">
+                                    <div class="w-[150px] flex justify-end mr-7">
+                                        <label for="firstname" class="label">Name</label>
+                                    </div>
+                                    <div>
+                                        <input type="text" id="firstname" name="firstname"
+                                               class="input input-bordered rounded-none"
+                                               placeholder="Firstname" required value="${u.firstName}"/>
+                                        <input type="text" id="lastname" name="lastname"
+                                               class="input input-bordered rounded-none"
+                                               placeholder="Lastname" required value="${u.lastName}"/>
+                                    </div>
+                                </div>
+
+                                <div class="flex">
+                                    <div class="w-[150px] flex justify-end mr-7 shrink-0">
+                                        <label for="email" class="label">Email</label>
+                                    </div>
+                                    <input type="email" id="email" name="email"
+                                           class="input input-bordered rounded-none w-[50%]"
+                                           placeholder="Email" required value="${u.email}"/>
+                                </div>
+                                <div class="flex">
+                                    <div class="w-[150px] flex justify-end mr-7">
+                                        <label for="phonenum" class="label">Phone number</label>
+                                    </div>
+                                    <input type="tel" id="phonenum" name="phonenum"
+                                           class="input input-bordered rounded-none"
+                                           placeholder="Phone number" required value="${u.phoneNum}"/>
+                                </div>
+                                <div class="flex">
+                                    <div class="w-[150px] flex justify-end mr-7">
+                                        <label class="label">Gender</label>
+                                    </div>
+                                    <div class="flex gap-4">
+                                        <div class="flex items-center gap-3">
+                                            <input type="radio" name="userGender"
+                                                   class="radio radio-sm checked:bg-blue-500" value="Male"
+                                                   <c:if test="${u.gender == 'Male'}">checked</c:if>
+                                            />
+                                            <span class="label-text">Male</span>
+                                        </div>
+                                        <div class="flex items-center gap-3">
+                                            <input type="radio" name="userGender"
+                                                   class="radio radio-sm checked:bg-blue-500"
+                                                   value="Female"
+                                                   <c:if
+                                                           test="${u.gender == 'Female'}">checked</c:if>
+                                            />
+                                            <span class="label-text">Female</span>
+                                        </div>
+                                        <div class="flex items-center gap-3">
+                                            <input type="radio" name="userGender"
+                                                   class="radio radio-sm checked:bg-blue-500" value="Other"
+                                                   <c:if test="${u.gender == 'Other'}">checked</c:if>
+                                            />
+                                            <span class="label-text">Other</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex">
+                                    <div class="w-[150px] flex justify-end mr-7">
+                                        <label for="DoB" class="label">DoB</label>
+                                    </div>
+                                    <div>
+                                        <input type="date" id="DoB" name="date"
+                                               class="input input-bordered rounded-none" placeholder="Date"
+                                               required/>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-[150px] flex justify-end mr-7">
+                                        <label for="password" class="label">Password</label>
+                                    </div>
+                                    <input type="password" id="password" name="password"
+                                           class="input input-bordered rounded-none input-disabled"
+                                           placeholder="Enter new password" disabled
+                                           value="${u.password}"/>
+                                    <div id="chgpwd" class="btn btn-ghost btn-xs ml-5" onclick="changePassword()"
+                                         >
+                                        Change password
+                                    </div>
+                                </div>
+
+
+                                <div class="hidden" id="cfpwd">
+                                    <div class="w-[150px] flex justify-end mr-7">
+                                        <label for="cfpassword" class="label">Confirm
+                                            password</label>
+                                    </div>
+                                    <input type="password" id="cfpassword" name="cfpassword"
+                                           class="input input-bordered rounded-none"
+                                           placeholder="Confirm new password" required value=""/>
+
+                                    <div class="hidden items-center ml-3 gap-3" id="notMatch">
+                                                        <span class="material-symbols-outlined text-red-700">
+                                                            error
+                                                        </span>
+                                        <span class="text-red-700">Password does not
+                                                            match.</span>
+                                    </div>
+
+                                    <div class="hidden items-center ml-3 gap-3" id="pwdMatch">
+                                                        <span class="material-symbols-outlined text-green-600">
+                                                            done
+                                                        </span>
+                                        <span class="text-green-600">Password matches</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="divider divider-horizontal m-0"></div>
+
+                <div class="flex grow justify-center">
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="avatar">
+                            <div class="w-24 rounded-full">
+                                <img id="userAvt" src="${u.profilePicture}"/>
+                            </div>
+                        </div>
+                        <div x-data>
+                            <button class="btn btn-primary btn-outline btn-sm w-24"
+                                    @click="openFilePicker">
+                                Change
+                            </button>
+                            <input x-ref="filePicker" type="file" class="hidden"
+                                   accept=".jpg,.png,.jpeg"/>
+                        </div>
+                        <div class="text-xs">
+                            <p>Maximum file size: 1 MB <br/>
+                                Format: .JPEG, .PNG</p>
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
 
-        <div>
-            <div class="avatar">
-                <div class="w-24 rounded-full">
-                    <img src="${currUser.profilePicture}"/>
-                </div>
-            </div>
-            <div x-data>
-                <button class="btn btn-primary btn-outline w-24" @click="openFilePicker">
-                    Change
-                </button>
-                <input x-ref="filePicker" type="file" class="hidden" accept=".jpg,.png,.jpeg"/>
             </div>
         </div>
     </div>
-
 </div>
-
 <script>
+    const inputPassword = document.getElementById('password')
+    const cfInputPassword = document.getElementById('cfpassword')
+    const cfpwd = document.getElementById('cfpwd')
+    const pwdMatch = document.getElementById('pwdMatch')
+    const notMatch = document.getElementById('notMatch')
+    const changePasswordBtn = document.getElementById('chgpwd')
+
     function openFilePicker() {
         this.$refs.filePicker.click();
+
     }
+
+    // Get file input element and display the selected image
+    const fileInput = document.querySelector('input[type="file"]');
+    let base64String;
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            base64String = e.target.result;
+            const img = document.getElementById('userAvt');
+            img.src = base64String;
+        }
+        reader.readAsDataURL(file);
+    });
+
+    // Parse the selected date to yyyy-mm-dd format
+    const sqlDate = new Date('${sqlDate}');
+    const formatted = sqlDate.toISOString().slice(0, 10);
+    document.getElementById('DoB').value = formatted;
+
+
+    function getUsername() {
+        return document.getElementById('username').value;
+    }
+
+    function getFirstname() {
+        return document.getElementById('firstname').value;
+    }
+
+    function getLastname() {
+        return document.getElementById('lastname').value;
+    }
+
+    function getEmail() {
+        return document.getElementById('email').value;
+    }
+
+    function getPhoneNum() {
+        return document.getElementById('phonenum').value;
+    }
+
+    function getGender() {
+        const radios = document.getElementsByName('userGender');
+        for (let i = 0; i < radios.length; i++) {
+            if (radios[i].checked) {
+                return radios[i].value;
+            }
+        }
+    }
+
+    function getDoB() {
+        return document.getElementById('DoB').value;
+    }
+
+
+    function getProfilePicture() {
+        return document.getElementById('userAvt').src;
+    }
+
+
+    const defaultPasword = '${u.password}';
+
+    function getPassword() {
+        if ((inputPassword.value === cfInputPassword.value) && (inputPassword.value !== defaultPasword)
+            && (cfInputPassword.value !== defautPasword) && (inputPassword.value !== '') && (cfInputPassword.value !== '')
+        ) {
+            return inputPassword.value;
+        } else {
+            return defaultPasword;
+        }
+    }
+
+    function changePassword() {
+        changePasswordBtn.classList.add('hidden');
+        inputPassword.value = '';
+        inputPassword.disabled = false;
+        inputPassword.classList.remove('input-disabled');
+        cfpwd.classList.remove('hidden');
+        cfpwd.classList.add('flex');
+        cfInputPassword.addEventListener('input', (e) => {
+            if (cfInputPassword.value !== inputPassword.value) {
+                cfInputPassword.classList.add('border-red-700');
+                cfInputPassword.classList.remove('border-green-600');
+                notMatch.classList.remove('hidden');
+                notMatch.classList.add('flex');
+                pwdMatch.classList.remove('flex');
+                pwdMatch.classList.add('hidden');
+            } else {
+                cfInputPassword.classList.remove('border-red-700');
+                cfInputPassword.classList.add('border-green-600');
+                notMatch.classList.remove('flex');
+                notMatch.classList.add('hidden');
+                pwdMatch.classList.remove('hidden');
+                pwdMatch.classList.add('flex');
+            }
+        });
+    }
+
+
+    function updateUser() {
+        htmx.ajax('POST', '${pageContext.request.contextPath}/account/submit', {
+            swap: 'none', values: {
+                userID: '${u.userID}',
+                username: getUsername(),
+                firstName: getFirstname(),
+                lastName: getLastname(),
+                email: getEmail(),
+                phoneNumber: getPhoneNum(),
+                gender: getGender(),
+                dob: getDoB(),
+                profilePicture: getProfilePicture(),
+                password: getPassword()
+            }
+        })
+    }
+
+    htmx.onLoad(function (elt) {
+        htmx.on(elt, "htmx:afterOnLoad", function (evt) {
+            var xhr = evt.detail.xhr;
+            var responseText = xhr.responseText;
+            switch (responseText) {
+                case "Updated":
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Updated successfully!',
+                        text: 'Your data have been updated.',
+                    })
+                    break;
+                case "Failed":
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!',
+                        footer: '<a href="">Why do I have this issue?</a>'
+                    })
+                    break;
+                default:
+                    break;
+            }
+        });
+    });
 </script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>

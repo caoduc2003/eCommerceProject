@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.ecommerce.DAO.CategoriesDAO;
 import com.ecommerce.models.Categories;
+import com.ecommerce.models.User;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -36,6 +37,11 @@ public class HomepageController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        User u = (User) request.getSession().getAttribute("user");
+        if (u == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
         String url = null;
         try {
             CategoriesDAO dao = new CategoriesDAO();

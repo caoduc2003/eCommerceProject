@@ -1,7 +1,8 @@
-<%
-    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-    if(session.getAttribute("user") != null) response.sendRedirect("${pageContext.request.contextPath}/home");
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.io.*" %>
+<% response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    if (session.getAttribute("user") != null)
+        response.sendRedirect("${pageContext.request.contextPath}/home"); %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -91,30 +92,61 @@
                         <a href="#" class="label-text-alt link link-hover">Forgot password?</a>
                     </label>
                 </div>
-                <div class="form-control mt-6">
-                    <button class="btn btn-primary btn-outline" name="btAction" id="loginButton"
-                            onclick="login()">Login
-                    </button>
-                </div>
-                <div class="form-control mt-6">
-                    <a href="https://accounts.google.com/o/oauth2/auth?scope=profile email&redirect_uri=http://localhost:8080/eCommerceProject/login-google&response_type=code&client_id=432080739851-i90lscb3v0n6lrv551n210tise0a6drf.apps.googleusercontent.com&approval_prompt=force" class="btn btn-primary btn-outline">Sign in with Google
-                    </a>
+                <div class="flex flex-col justify-center mt-6">
+                    <div class="form-control">
+                        <button class="btn btn-primary btn-outline" name="btAction" id="loginButton"
+                                onclick="login()">Login
+                        </button>
+                    </div>
+                    <div class="divider font-semibold text-sm">OR</div>
+                    <div class="form-control">
+                        <a href="https://accounts.google.com/o/oauth2/auth?scope=profile email&redirect_uri=http://localhost:8080/eCommerceProject/login-google&response_type=code&client_id=432080739851-i90lscb3v0n6lrv551n210tise0a6drf.apps.googleusercontent.com&approval_prompt=force"
+                           class="btn btn-primary btn-outline">
+                            <img src="./asset/images/Login/icons8-google.svg" alt="Google logo"
+                                 class="w-5 h-5">Sign in with Google
+                        </a>
+                    </div>
                 </div>
                 <div class="text-center mt-5">
                     Dont have an account?
                     <a href="${pageContext.request.contextPath}/register"
                        class="link link-hover text-blue-600">Sign up</a>
                 </div>
+
                 <!-- </form> -->
             </div>
         </div>
     </div>
 </div>
-
 <script>
     const email = document.querySelector('input[name="txtEmail"]');
     const password = document.querySelector('input[name="txtPassword"]');
     const loginButton = document.getElementById('loginButton');
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if(urlParams.has('error') && urlParams.get('error') === '1') {
+        Swal.fire({
+            toast: true,
+            icon: "error",
+            iconColor: "white",
+            title: "You haven't registered your Google account. Please register your Google account and try again!",
+            position: "top-end",
+            showConfirmButton: false,
+            color: "#fff",
+            timer: 10000,
+            timerProgressBar: true,
+            background: "#b81c1c",
+            didOpen: (toast) => {
+                toast.addEventListener("click", Swal.close);
+            }
+        });
+    }
+
+    if (window.location.href === 'http://localhost:8080/eCommerceProject/login?error=1') {
+        window.addEventListener('beforeunload', function (event) {
+            event.preventDefault();
+        });
+    }
 
     email.addEventListener('change', function (event) {
         if (email.validity.typeMismatch) {

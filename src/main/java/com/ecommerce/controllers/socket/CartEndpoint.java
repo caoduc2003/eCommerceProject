@@ -1,4 +1,4 @@
-package com.ecommerce.controllers;
+package com.ecommerce.controllers.socket;
 
 import com.ecommerce.DAO.CartDAO;
 import com.ecommerce.models.jsonModels.WSRequest;
@@ -17,7 +17,6 @@ public class CartEndpoint {
     @OnOpen
     public void onOpen(Session session) {
         users.add(session);
-        System.out.println("Active Connections: " + users.size());
     }
 
     @OnMessage
@@ -46,7 +45,6 @@ public class CartEndpoint {
 
     @OnClose
     public void onClose(Session session) {
-        System.out.println("Close Connection ...");
         users.remove(session);
     }
 }

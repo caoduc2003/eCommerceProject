@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import com.ecommerce.DAO.ProductsDAO;
 import com.ecommerce.models.Products;
+import com.ecommerce.models.User;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -36,6 +37,11 @@ public class ProductDetailsController extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try{
+            User u = (User) request.getSession().getAttribute("user");
+            if (u == null) {
+                response.sendRedirect(request.getContextPath() + "/login");
+                return;
+            }
             ProductsDAO dao = new ProductsDAO();
             int productID = Integer.parseInt(request.getParameter("id"));
             Products product = dao.getProduct(productID);

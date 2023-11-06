@@ -5,10 +5,8 @@
 <c:set var="cartItems" value="${requestScope.cartItems}"/>
 <c:set var="totalPrice" value="${requestScope.total}"/>
 <c:set var="transportUnits" value="${requestScope.transportUnits}"/>
+<c:set var="currUser" value="${sessionScope.user}"/>
 <% response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");%>
-<c:if test="${cartItems.size() < 1 || cartItems == null}">
-    <% response.sendRedirect(request.getContextPath() + "/cart");%>
-</c:if>
 
 
 <!DOCTYPE html>
@@ -57,6 +55,8 @@
 
 <body>
 <%@ include file="Webpage-components/navbar.jsp" %>
+
+
 <main class="container mx-auto">
     <!-- Breadcrumb -->
     <div class="pt-4">
@@ -70,251 +70,275 @@
         </div>
     </div>
 
-    <!-- Checkout section -->
-    <div class="mt-4">
-        <div class="grid grid-cols-[55%_minmax(30%,_1fr)] gap-4">
-            <!-- Left side -->
-            <div class="w-full h-full pr-2">
-                <div class="w-full h-full">
-                    <div>
-                        <h1 class="text-2xl font-bold">Checkout</h1>
-                    </div>
-
-                    <div class="divider"></div>
-
-                    <div>
-                        <h2 class="text-base font-semibold">Shipping info</h2>
-                    </div>
-
-                    <div class="name-section flex items-center gap-4 mt-7">
-                        <div class="form-control w-full">
-                            <label class="label">
-                                <span class="label-text">Firstname</span>
-                            </label>
-                            <input type="text" placeholder="Firstname" class="input input-bordered w-full"
-                                   id="first-name"/>
-
-                        </div>
-
-                        <div class="form-control w-full">
-                            <label class="label">
-                                <span class="label-text">Lastname</span>
-                            </label>
-                            <input type="text" placeholder="Lastname" class="input input-bordered w-full"
-                                   id="last-name"/>
-                        </div>
-                    </div>
-
-                    <div class="contact-section flex gap-4">
-                        <div class="form-control w-full min-w-[65%]">
-                            <label class="label">
-                                <span class="label-text">Email</span>
-                            </label>
-                            <input type="text" placeholder="Email" class="input input-bordered w-full" id="email"/>
-                        </div>
-
-                        <!-- copy this block for easy styling! -->
-                        <div class="form-control w-full">
-                            <label class="label">
-                                <span class="label-text">Phone</span>
-                            </label>
-                            <input type="tel" placeholder="Phone number" class="input input-bordered w-full"
-                                   id="phone-num"/>
-                        </div>
-                    </div>
-
-                    <div class="address-section">
-                        <div class="form-control w-full">
-                            <label class="label">
-                                <span class="label-text">Address</span>
-                            </label>
-                            <input type="text" placeholder="Address" class="input input-bordered w-full"
-                                   id="address-line"/>
-                        </div>
-
-                        <div class="flex gap-4">
-                            <div class="form-control w-1/3">
-                                <label class="label">
-                                    <span class="label-text">Country</span>
-                                </label>
-                                <input type="text" placeholder="Country" class="input input-bordered w-full"
-                                       id="country"/>
-                            </div>
-                            <div class="form-control w-1/3">
-                                <label class="label">
-                                    <span class="label-text">City</span>
-                                </label>
-                                <input type="text" placeholder="City" class="input input-bordered w-full" id="city"/>
-                            </div>
-                            <div class="form-control w-1/3">
-                                <label class="label">
-                                    <span class="label-text">District</span>
-                                </label>
-                                <input type="text" placeholder="District" class="input input-bordered w-full"
-                                       id="district"/>
-                            </div>
-                        </div>
-
-                        <div class="flex gap-32 mt-6 justify-between">
-                            <div class="form-control w-fit">
-                                <label class="label cursor-pointer gap-x-2">
-                                    <input type="checkbox" checked="checked"
-                                           class="checkbox checkbox-primary checkbox-xs"/>
-                                    <span class="label-text">Save this address to your address list</span>
-                                </label>
-                            </div>
-                            <div class="form-control w-fit">
-                                <label class="label cursor-pointer gap-x-2">
-                                    <input type="checkbox" checked="checked"
-                                           class="checkbox checkbox-primary checkbox-xs"/>
-                                    <span class="label-text">Use this address as default</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="divider"></div>
-
-                    <!-- SHIPPING METHOD -->
-                    <div>
-                        <h2 class="text-base font-semibold">Shipping method</h2>
-                    </div>
-
-                    <div class="Shipping-method flex flex-wrap gap-4 pt-7">
-                        <c:forEach items="${transportUnits}" var="tu">
-                            <label class="card w-[40%] bg-base-200 card-bordered">
-                                <div>
-                                    <input type="radio" name="transport-unit"
-                                           class="absolute top-4 right-4 radio radio-sm radio-primary"
-                                           value="${tu.transportUnitID}"
-                                           id="tu-${tu.transportUnitID}"/>
-                                </div>
-
-                                <div class="card-body">
-                                    <h2 class="card-title">${tu.tuType}</h2>
-                                    <p>From ${tu.tuMinShipTime} - ${tu.tuMaxShipTime} business days</p>
-                                    <p>Shipping unit: ${tu.transportUnitName}</p>
-                                    <h2 class="font-thin">
-                                        <fmt:setLocale value="vi_VN"/>
-                                        <fmt:formatNumber value="${tu.tuShipCost}" type="currency" currencySymbol="₫"
-                                                          maxFractionDigits="0"/>
-                                    </h2>
-                                </div>
-                            </label>
-                        </c:forEach>
-                    </div>
-
-                    <div class="divider"></div>
-
-                    <!-- PAYMENT INFO -->
-                    <div>
-                        <h2 class="text-base font-semibold">Payment method</h2>
-                        <div class="pt-7">
-                            <div class="form-control bg-base-200 rounded-lg h-16">
-                                <label class="label cursor-pointer gap-4 items-center h-full"
-                                       style="justify-content: normal">
-                                    <input type="radio" name="payment-method" class="radio checked:bg-red-500"
-                                           value="QR"/>
-                                    <div class="flex gap-2 items-center">
-                                        <div class="w-14 h-6 flex items-center">
-                                            <img src="./asset/images/Checkout/Payment_method/Logo VNPAY-QR.svg"
-                                                 alt="VNPay_QR"/>
-                                        </div>
-                                        <span class="label-text">VNPay QR</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="divider">OR</div>
-                            <div class="form-control bg-base-200 rounded-lg h-16">
-                                <label class="label cursor-pointer gap-4 items-center h-full"
-                                       style="justify-content: normal">
-                                    <input type="radio" name="payment-method" class="radio checked:bg-blue-500"
-                                           value="COD"/>
-                                    <div class="flex gap-2 items-center">
-                                        <i class="fa-solid fa-wallet"></i>
-                                        <span class="label-text">Cash on delivery(COD)</span>
-                                    </div>
-                                </label>
-                            </div>
+    <c:choose>
+        <c:when test="${cartItems.size() < 1 || cartItems == null}">
+            <div>
+                <div class="flex justify-center items-center h-screen">
+                    <div class="flex flex-col items-center gap-4">
+                        <div class="text-4xl font-bold">Your cart is empty</div>
+                        <div class="text-xl">Please add some items to your cart</div>
+                        <div class="mt-4">
+                            <a href="${pageContext.request.contextPath}/home"
+                               class="btn btn-primary btn-active">Continue shopping</a>
                         </div>
                     </div>
                 </div>
             </div>
+        </c:when>
 
-            <!-- Right side -->
-            <div class="w-full h-full flex flex-col">
-                <div>
-                    <h1 class="text-2xl font-bold">Order summary</h1>
-                </div>
-                <div class="divider"></div>
-                <!-- Order summary -->
-                <div class="max-h-[60vh] w-full overflow-y-scroll overflow-x-hidden">
-                    <ul class="bg-base-200 divide-y rounded-md divide-[#e5e7eb] border border-[#e5e7eb]">
-                        <c:forEach items="${cartItems}" var="item">
-                            <li class="flex w-full gap-4 p-4">
-                                <div class="min-w-[80px] min-h-[120px] max-w-[80px] max-h-[120px] flex items-center">
-                                    <!-- <div class="artboard artboard-demo">80x120</div> -->
-                                    <img src="${item.product.productImage}" alt="${item.product.productName}"/>
+        <c:otherwise>
+            <div class="mt-4">
+                <div class="grid grid-cols-[55%_minmax(30%,_1fr)] gap-4">
+                    <!-- Left side -->
+                    <div class="w-full h-full pr-2">
+                        <div class="w-full h-full">
+                            <div>
+                                <h1 class="text-2xl font-bold">Checkout</h1>
+                            </div>
+
+                            <div class="divider"></div>
+
+                            <div>
+                                <h2 class="text-base font-semibold">Shipping info</h2>
+                            </div>
+
+                            <div class="name-section flex items-center gap-4 mt-7">
+                                <div class="form-control w-full">
+                                    <label class="label">
+                                        <span class="label-text">Firstname</span>
+                                    </label>
+                                    <input type="text" placeholder="Firstname" class="input input-bordered w-full"
+                                           id="first-name"/>
+
                                 </div>
-                                <div class="flex flex-col grow">
-                                    <div class="flex justify-between h-1/2">
-                                        <div>
-                                            <h2 class="text-base font-semibold truncate">
-                                                    ${item.product.productName}
-                                            </h2>
-                                            <p class="truncate max-w-[300px]"
-                                               title="${item.product.productDescription}">
-                                                    ${item.product.productDescription}
-                                            </p>
-                                        </div>
-                                        <div class="tooltip tooltip-error cursor-pointer" data-tip="delete">
-                                            <i class="fa-regular fa-trash-can"></i>
-                                        </div>
+
+                                <div class="form-control w-full">
+                                    <label class="label">
+                                        <span class="label-text">Lastname</span>
+                                    </label>
+                                    <input type="text" placeholder="Lastname" class="input input-bordered w-full"
+                                           id="last-name"/>
+                                </div>
+                            </div>
+
+                            <div class="contact-section flex gap-4">
+                                <div class="form-control w-full min-w-[65%]">
+                                    <label class="label">
+                                        <span class="label-text">Email</span>
+                                    </label>
+                                    <input type="text" placeholder="Email" class="input input-bordered w-full"
+                                           id="email"/>
+                                </div>
+
+                                <!-- copy this block for easy styling! -->
+                                <div class="form-control w-full">
+                                    <label class="label">
+                                        <span class="label-text">Phone</span>
+                                    </label>
+                                    <input type="tel" placeholder="Phone number" class="input input-bordered w-full"
+                                           id="phone-num"/>
+                                </div>
+                            </div>
+
+                            <div class="address-section">
+                                <div class="form-control w-full">
+                                    <label class="label">
+                                        <span class="label-text">Address</span>
+                                    </label>
+                                    <input type="text" placeholder="Address" class="input input-bordered w-full"
+                                           id="address-line"/>
+                                </div>
+
+                                <div class="flex gap-4">
+                                    <div class="form-control w-1/3">
+                                        <label class="label">
+                                            <span class="label-text">Country</span>
+                                        </label>
+                                        <input type="text" placeholder="Country" class="input input-bordered w-full"
+                                               id="country"/>
                                     </div>
-                                    <div class="flex justify-between items-end h-1/2">
-                                        <div class="font-thin">
-                                            <fmt:setLocale value="vi_VN"/>
-                                            <fmt:formatNumber value="${(item.product.productPrice) * (item.quantity)}"
-                                                              type="currency" currencySymbol="₫" maxFractionDigits="0"/>
-                                        </div>
+                                    <div class="form-control w-1/3">
+                                        <label class="label">
+                                            <span class="label-text">City</span>
+                                        </label>
+                                        <input type="text" placeholder="City" class="input input-bordered w-full"
+                                               id="city"/>
+                                    </div>
+                                    <div class="form-control w-1/3">
+                                        <label class="label">
+                                            <span class="label-text">District</span>
+                                        </label>
+                                        <input type="text" placeholder="District" class="input input-bordered w-full"
+                                               id="district"/>
+                                    </div>
+                                </div>
+
+                                <div class="flex gap-32 mt-6 justify-between">
+                                    <div class="form-control w-fit">
+                                        <label class="label cursor-pointer gap-x-2">
+                                            <input type="checkbox" checked="checked"
+                                                   class="checkbox checkbox-primary checkbox-xs"/>
+                                            <span class="label-text">Save this address to your address list</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-control w-fit">
+                                        <label class="label cursor-pointer gap-x-2">
+                                            <input type="checkbox" checked="checked"
+                                                   class="checkbox checkbox-primary checkbox-xs"/>
+                                            <span class="label-text">Use this address as default</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="divider"></div>
+
+                            <!-- SHIPPING METHOD -->
+                            <div>
+                                <h2 class="text-base font-semibold">Shipping method</h2>
+                            </div>
+
+                            <div class="Shipping-method flex flex-wrap gap-4 pt-7">
+                                <c:forEach items="${transportUnits}" var="tu">
+                                    <label class="card w-[40%] bg-base-200 card-bordered">
                                         <div>
-                                            <div class="custom-number-input h-10 w-32">
-                                                <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
-                                                    <button data-action="decrement"
-                                                            class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none">
-                                                        <span class="m-auto text-2xl font-thin">-</span>
-                                                    </button>
-                                                    <input id="order-quantity" type="number"
-                                                           class="focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black md:text-basecursor-default flex items-center text-gray-700 outline-none"
-                                                           name="custom-input-number" value="${item.quantity}" min="1"/>
-                                                    <button data-action="increment"
-                                                            class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
-                                                        <span class="m-auto text-2xl font-thin">+</span>
-                                                    </button>
+                                            <input type="radio" name="transport-unit"
+                                                   class="absolute top-4 right-4 radio radio-sm radio-primary"
+                                                   value="${tu.transportUnitID}"
+                                                   id="tu-${tu.transportUnitID}"/>
+                                        </div>
+
+                                        <div class="card-body">
+                                            <h2 class="card-title">${tu.tuType}</h2>
+                                            <p>From ${tu.tuMinShipTime} - ${tu.tuMaxShipTime} business days</p>
+                                            <p>Shipping unit: ${tu.transportUnitName}</p>
+                                            <h2 class="font-thin">
+                                                <fmt:setLocale value="vi_VN"/>
+                                                <fmt:formatNumber value="${tu.tuShipCost}" type="currency"
+                                                                  currencySymbol="₫"
+                                                                  maxFractionDigits="0"/>
+                                            </h2>
+                                        </div>
+                                    </label>
+                                </c:forEach>
+                            </div>
+
+                            <div class="divider"></div>
+
+                            <!-- PAYMENT INFO -->
+                            <div>
+                                <h2 class="text-base font-semibold">Payment method</h2>
+                                <div class="pt-7">
+                                    <div class="form-control bg-base-200 rounded-lg h-16">
+                                        <label class="label cursor-pointer gap-4 items-center h-full"
+                                               style="justify-content: normal">
+                                            <input type="radio" name="payment-method" class="radio checked:bg-red-500"
+                                                   value="QR"/>
+                                            <div class="flex gap-2 items-center">
+                                                <div class="w-14 h-6 flex items-center">
+                                                    <img src="./asset/images/Checkout/Payment_method/Logo VNPAY-QR.svg"
+                                                         alt="VNPay_QR"/>
+                                                </div>
+                                                <span class="label-text">VNPay QR</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div class="divider">OR</div>
+                                    <div class="form-control bg-base-200 rounded-lg h-16">
+                                        <label class="label cursor-pointer gap-4 items-center h-full"
+                                               style="justify-content: normal">
+                                            <input type="radio" name="payment-method" class="radio checked:bg-blue-500"
+                                                   value="COD"/>
+                                            <div class="flex gap-2 items-center">
+                                                <i class="fa-solid fa-wallet"></i>
+                                                <span class="label-text">Cash on delivery(COD)</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right side -->
+                    <div class="w-full h-full flex flex-col">
+                        <div>
+                            <h1 class="text-2xl font-bold">Order summary</h1>
+                        </div>
+                        <div class="divider"></div>
+                        <!-- Order summary -->
+                        <div class="max-h-[60vh] w-full overflow-y-scroll overflow-x-hidden">
+                            <ul class="bg-base-200 divide-y rounded-md divide-[#e5e7eb] border border-[#e5e7eb]">
+                                <c:forEach items="${cartItems}" var="item">
+                                    <li class="flex w-full gap-4 p-4">
+                                        <div class="min-w-[80px] min-h-[120px] max-w-[80px] max-h-[120px] flex items-center">
+                                            <!-- <div class="artboard artboard-demo">80x120</div> -->
+                                            <img src="${item.product.productImage}" alt="${item.product.productName}"/>
+                                        </div>
+                                        <div class="flex flex-col grow">
+                                            <div class="flex justify-between h-1/2">
+                                                <div>
+                                                    <h2 class="text-base font-semibold truncate">
+                                                            ${item.product.productName}
+                                                    </h2>
+                                                    <p class="truncate max-w-[300px]"
+                                                       title="${item.product.productDescription}">
+                                                            ${item.product.productDescription}
+                                                    </p>
+                                                </div>
+                                                <div class="tooltip tooltip-error cursor-pointer" data-tip="delete">
+                                                    <i class="fa-regular fa-trash-can"></i>
+                                                </div>
+                                            </div>
+                                            <div class="flex justify-between items-end h-1/2">
+                                                <div class="font-thin">
+                                                    <fmt:setLocale value="vi_VN"/>
+                                                    <fmt:formatNumber
+                                                            value="${(item.product.productPrice) * (item.quantity)}"
+                                                            type="currency" currencySymbol="₫" maxFractionDigits="0"/>
+                                                </div>
+                                                <div>
+                                                    <div class="custom-number-input h-10 w-32">
+                                                        <div class="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
+                                                            <button data-action="decrement"
+                                                                    class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none">
+                                                                <span class="m-auto text-2xl font-thin">-</span>
+                                                            </button>
+                                                            <input id="order-quantity" type="number"
+                                                                   class="focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black md:text-basecursor-default flex items-center text-gray-700 outline-none"
+                                                                   name="custom-input-number" value="${item.quantity}"
+                                                                   min="1"/>
+                                                            <button data-action="increment"
+                                                                    class="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
+                                                                <span class="m-auto text-2xl font-thin">+</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </div>
-                <div class="mt-5">
-                    <div class="form-control">
-                        <label class="label">
-                            <span class="label-text">Note</span>
-                        </label>
-                        <textarea id="order-note" class="textarea textarea-bordered h-24"
-                                  placeholder="Write your note for order here"></textarea>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </div>
+                        <div class="mt-5">
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">Note</span>
+                                </label>
+                                <textarea id="order-note" class="textarea textarea-bordered h-24"
+                                          placeholder="Write your note for order here"></textarea>
+                            </div>
+                        </div>
+                        <div class="mt-10">
+                            <button class="btn btn-block btn-primary" id="checkout-btn">Confirm order</button>
+                        </div>
                     </div>
                 </div>
-                <div class="mt-10">
-                    <button class="btn btn-block btn-primary" id="checkout-btn">Confirm order</button>
-                </div>
             </div>
-        </div>
-    </div>
+        </c:otherwise>
+    </c:choose>
+
 </main>
 <style>
     input[type="number"]::-webkit-inner-spin-button,

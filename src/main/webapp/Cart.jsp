@@ -6,10 +6,6 @@
 <c:set var="cartItems" value="${requestScope.cartItems}"/>
 <c:set var="totalPrice" value="${requestScope.total}"/>
 
-<c:if test="${cartItems.size() < 1 || cartItems == null}">
-    <% response.sendRedirect(request.getContextPath() + "/home");%>
-</c:if>
-
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 
@@ -64,8 +60,7 @@
     <div class="pt-4">
         <div class="text-base breadcrumbs">
             <ul>
-                <li><a>Home</a></li>
-                <li><a>Documents</a></li>
+                <li><a href="${pageContext.request.contextPath}/home">Home</a></li>
                 <li class="text-slate-500">Cart</li>
             </ul>
         </div>
@@ -171,13 +166,9 @@
                     </div>
                 </c:otherwise>
             </c:choose>
-            <!-- Cart items -->
-
-
-            <!-- Subtotal -->
-
         </div>
     </div>
+    
 </main>
 <script>
     function goCheckout() {
@@ -192,7 +183,7 @@
         }
     );
 </script>
-<%@ include file="Webpage-components/footer.jsp" %>
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>
 

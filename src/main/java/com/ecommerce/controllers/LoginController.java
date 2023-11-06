@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "LoginController", urlPatterns = { "/login/*" })
+@WebServlet(name = "LoginController", urlPatterns = {"/login/*"})
 public class LoginController extends HttpServlet {
     private static final String INVALID_PAGE = "errorPage.jsp";
     private static final String LOGIN_PAGE = "login.jsp";
@@ -27,7 +27,6 @@ public class LoginController extends HttpServlet {
         } else {
             request.getRequestDispatcher(LOGIN_PAGE).forward(request, response);
         }
-
     }
 
     @Override

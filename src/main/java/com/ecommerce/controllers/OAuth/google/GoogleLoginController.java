@@ -1,8 +1,9 @@
-package com.ecommerce.controllers;
+package com.ecommerce.controllers.OAuth.google;
 
 import com.ecommerce.DAO.UserDAO;
 import com.ecommerce.DTO.UserGoogleDTO;
 import com.ecommerce.utils.GoogleConstants;
+import com.ecommerce.utils.ProcessOAuthGoogle;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.servlet.ServletException;
@@ -18,6 +19,8 @@ import org.apache.http.client.fluent.Request;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import static com.ecommerce.utils.ProcessOAuthGoogle.getUserInfo;
+
 @WebServlet(name = "GoogleLoginController", urlPatterns = {"/login-google"})
 public class GoogleLoginController extends HttpServlet {
 
@@ -27,39 +30,19 @@ public class GoogleLoginController extends HttpServlet {
             HttpSession session = request.getSession();
             UserDAO userDAO = new UserDAO();
             String code = request.getParameter("code");
-            System.out.println(code);
-            String accessToken = getToken(code);
-            UserGoogleDTO user = getUserInfo(accessToken);
-            System.out.println(user);
+            String accessToken = ProcessOAuthGoogle.getToken(code, GoogleConstants.GOOGLE_REDIRECT_URI);
+            UserGoogleDTO user = ProcessOAuthGoogle.getUserInfo(accessToken);
             if(!(userDAO.checkGoogleUserID(user.getId()))){
-                userDAO.addGoogleUser(user);
+                response.sendRedirect("login?error=1");
+            } else {
+                session.setAttribute("user", userDAO.getUserByGoogleID(user.getId()));
+                response.sendRedirect("home");
             }
-            session.setAttribute("user", userDAO.getUserByGoogleID(user.getId()));
-            response.sendRedirect("home");
+
         } catch (Exception e){
             e.printStackTrace();
         }
 
-    }
-
-    public static String getToken(String code) throws ClientProtocolException, IOException {
-        // call api to get token
-        String response = Request.Post(GoogleConstants.GOOGLE_LINK_GET_TOKEN)
-                .bodyForm(Form.form().add("client_id", GoogleConstants.GOOGLE_CLIENT_ID)
-                        .add("client_secret", GoogleConstants.GOOGLE_CLIENT_SECRET)
-                        .add("redirect_uri", GoogleConstants.GOOGLE_REDIRECT_URI).add("code", code)
-                        .add("grant_type", GoogleConstants.GOOGLE_GRANT_TYPE).build())
-                .execute().returnContent().asString();
-
-        JsonObject jobj = new Gson().fromJson(response, JsonObject.class);
-        System.out.println(jobj.get("access_token"));
-        return jobj.get("access_token").toString().replaceAll("\"", "");
-    }
-
-    public static UserGoogleDTO getUserInfo(final String accessToken) throws ClientProtocolException, IOException {
-        String link = GoogleConstants.GOOGLE_LINK_GET_USER_INFO + accessToken;
-        String response = Request.Get(link).execute().returnContent().asString();
-        return new Gson().fromJson(response, UserGoogleDTO.class);
     }
     
     @Override

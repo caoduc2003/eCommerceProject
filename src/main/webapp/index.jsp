@@ -112,15 +112,13 @@
                 <h2 class="card-title">Finding your products?</h2>
                 <p>We're here to help u!</p>
                 <div class="card-actions justify-end">
-                    <button
+                    <a
                             class="btn btn-primary btn-active"
                             type="submit"
-                            name="btAction"
-                            value="product-list-site"
-                            onclick="productListSite()"
+                            href="${pageContext.request.contextPath}/productslist"
                     >
                         Shop Now
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -194,9 +192,6 @@
     </div>
 </main>
 <script>
-    function productListSite() {
-        window.open('${pageContext.request.contextPath}/productslist', '_self');
-    }
 </script>
 <!-- footer -->
 <%@include file="Webpage-components/footer.jsp" %>

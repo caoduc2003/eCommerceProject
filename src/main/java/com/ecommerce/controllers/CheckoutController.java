@@ -23,6 +23,11 @@ public class CheckoutController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        User u = (User) request.getSession().getAttribute("user");
+        if (u == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
         CartDAO dao = new CartDAO();
         TransportUnitDAO transportUnitDAO = new TransportUnitDAO();
         HttpSession session = request.getSession();

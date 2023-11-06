@@ -127,6 +127,34 @@ public class ProductsDAO extends DBContext {
         return numberOfProducts;
     }
 
+    public ArrayList<Products> getProductsBySearch(String keyword) throws Exception {
+        ArrayList<Products> products = new ArrayList<>();
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            if (connection != null) {
+                String sql = "SELECT product_id, product_name, category_id, description, product_image, price FROM Products WHERE product_name LIKE ?";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, "%" + keyword + "%");
+                rs = stm.executeQuery();
+                //5. Process Result
+                while (rs.next()) {
+                    int productID = rs.getInt("product_id");
+                    String productName = rs.getString("product_name");
+                    int categoryID = rs.getInt("category_id");
+                    String productDescription = rs.getString("description");
+                    String productImage = rs.getString("product_image");
+                    int productPrice = rs.getInt("price");
+                    Products product = new Products(productID, productName, productDescription, productImage, productPrice, categoryID ,null, null);
+                    products.add(product);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
+
     public int getLastProductID() throws Exception{
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -170,25 +198,6 @@ public class ProductsDAO extends DBContext {
             System.err.println(e);
         }
         return images;
-    }
-
-    public void addProducts(Products productObj) throws Exception{
-        PreparedStatement stm = null;
-        ResultSet rs = null;
-        try{
-            if (connection != null) {
-                String sql = "INSERT INTO Products(product_name, category_id, description, product_image, price) VALUES(?,?,?,?,?,?)";
-                stm = connection.prepareStatement(sql);
-                stm.setString(1, productObj.getProductName());
-                stm.setInt(2, productObj.getCategoryID());
-                stm.setString(3, productObj.getProductDescription());
-                stm.setString(4, productObj.getProductImage());
-                stm.setInt(5, productObj.getProductPrice());
-                stm.executeUpdate();
-            }
-        } catch (Exception e){
-            System.err.println(e);
-        }
     }
 
     public List<ProductPreviewDTO> getAllProductsPreview() throws Exception {
@@ -328,5 +337,7 @@ public class ProductsDAO extends DBContext {
         }
         return 0;
     }
+
+
 }
 

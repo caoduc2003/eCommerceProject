@@ -431,9 +431,6 @@
     </script>
 </div>
 <!-- end content -->
-<div class="mt-40">
-    <%@ include file="../Webpage-components/footer.jsp" %>
-</div>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>
 </html>

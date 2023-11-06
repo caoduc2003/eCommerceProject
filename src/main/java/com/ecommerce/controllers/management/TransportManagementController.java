@@ -1,4 +1,4 @@
-package com.ecommerce.controllers;
+package com.ecommerce.controllers.management;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,7 +19,7 @@ public class TransportManagementController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         User u = (User) request.getSession().getAttribute("user");
-        if (u == null || !u.getRole().equals("admin")) {
+        if (u == null || !u.getRole().equalsIgnoreCase("admin")) {
             response.sendRedirect(request.getContextPath() + "/home");
             return;
         }

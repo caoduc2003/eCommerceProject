@@ -51,11 +51,11 @@
         adminCate.classList.toggle("menu-dropdown-show");
     });
 
-    function checkAdmin() {
-        if (!(accRole.innerText === "User")) {
-            adminBtn.closest("li").remove();
-        }
-    }
+    // function checkAdmin() {
+    //     if (!(accRole.innerText === "User")) {
+    //         adminBtn.closest("li").remove();
+    //     }
+    // }
 
     // Call the checkAdmin function to check the user's role and hide the "Admin" menu if necessary.
     checkAdmin();

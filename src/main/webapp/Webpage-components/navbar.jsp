@@ -16,24 +16,18 @@
            style="font-size: 24px; text-transform: none;">Buylicious</a>
     </div>
 
-    <div class="join xl:w-2/5 md:w-1/2">
         <!-- searchbar -->
-        <div class="w-full">
+        <form class="join xl:w-2/5 md:w-1/2" action="${pageContext.request.contextPath}/search" method="get">
             <div class="w-full">
-                <input class="input input-bordered join-item w-full rounded-lg"
-                       placeholder="Search for products"/>
+                <div class="w-full">
+                    <input class="input input-bordered join-item w-full rounded-lg"
+                           placeholder="Search for products" name="keyword" value=""/>
+                </div>
             </div>
-        </div>
-        <select class="select select-bordered join-item">
-            <option disabled selected>Filter</option>
-            <option>Sci-fi</option>
-            <option>Drama</option>
-            <option>Action</option>
-        </select>
-        <div class="indicator">
-            <button class="btn join-item">Search</button>
-        </div>
-    </div>
+            <div class="indicator">
+                <button type="submit" class="btn btn-ghost btn-outline join-item">Search</button>
+            </div>
+        </form>
 
     <div class="flex flex-end">
         <div class="dropdown dropdown-end">

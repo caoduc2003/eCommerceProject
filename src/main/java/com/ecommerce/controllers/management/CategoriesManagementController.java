@@ -1,4 +1,4 @@
-package com.ecommerce.controllers;
+package com.ecommerce.controllers.management;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,7 +33,7 @@ public class CategoriesManagementController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try (PrintWriter out = response.getWriter()) {
             User u = (User) request.getSession().getAttribute("user");
-            if (u == null || !u.getRole().equals("admin")) {
+            if (u == null || !u.getRole().equalsIgnoreCase("admin")) {
                 response.sendRedirect(request.getContextPath() + "/home");
                 return;
             }

@@ -1,4 +1,4 @@
-package com.ecommerce.controllers;
+package com.ecommerce.controllers.socket;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -16,7 +16,6 @@ public class NotificationEndpoint {
     static Set<Session> users = Collections.synchronizedSet(new HashSet<>());
     @OnOpen
     public void onOpen(Session session) {
-        System.out.println("Open Connection ...");
         users.add(session);
     }
 
@@ -40,7 +39,6 @@ public class NotificationEndpoint {
 
     @OnClose
     public void onClose(Session session) {
-        System.out.println("Close Connection ...");
         users.remove(session);
     }
 

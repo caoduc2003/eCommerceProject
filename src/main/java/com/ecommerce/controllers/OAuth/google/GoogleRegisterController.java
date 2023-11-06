@@ -1,10 +1,13 @@
-package com.ecommerce.controllers;
+package com.ecommerce.controllers.OAuth.google;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import com.ecommerce.DAO.OrderProductsDAO;
+import com.ecommerce.DAO.UserDAO;
+import com.ecommerce.DTO.UserGoogleDTO;
 import com.ecommerce.models.User;
+import com.ecommerce.utils.GoogleConstants;
+import com.ecommerce.utils.ProcessOAuthGoogle;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,30 +15,23 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet(name = "OrderController", urlPatterns = {"/order/*"})
-public class OrderController extends HttpServlet {
+@WebServlet(name = "GoogleRegisterController", urlPatterns = {"/register-google"})
+public class GoogleRegisterController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            User u = (User) request.getSession().getAttribute("user");
-            if (u == null) {
-                response.sendRedirect(request.getContextPath() + "/login");
-                return;
+        try (PrintWriter out = response.getWriter()) {
+            UserDAO dao = new UserDAO();
+            String code = request.getParameter("code");
+            String accessToken = ProcessOAuthGoogle.getToken(code, GoogleConstants.GOOGLE_REDIRECT_URI_2);
+            UserGoogleDTO user = ProcessOAuthGoogle.getUserInfo(accessToken);
+            if(!(dao.checkGoogleUserID(user.getId()))){
+                dao.addGoogleUser(user);
             }
-            HttpSession session = request.getSession();
-            User user = (User) session.getAttribute("user");
-            OrderProductsDAO opDAO = new OrderProductsDAO();
-            if (user == null) {
-                response.sendRedirect("/login");
-            } else {
-                request.setAttribute("ordersList", opDAO.getOrderPreviewByUserID(user.getUserID()));
-                request.getRequestDispatcher("Order.jsp").forward(request, response);
-            }
-
+            response.sendRedirect("home");
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
