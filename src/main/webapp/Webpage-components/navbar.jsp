@@ -95,7 +95,6 @@
 </div>
 <script>
     const socket = new WebSocket("ws://localhost:8080/eCommerceProject/cart-preview");
-
     const cartBadge = document.getElementById("cart-badge");
     const itemCount = document.getElementById("item-count");
     const totalAmount = document.getElementById("total-amount");

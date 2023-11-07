@@ -14,6 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buylicious|Login</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.1/dist/full.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/d2b9bc7cdd.js" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.1/dist/cdn.min.js"></script>
@@ -119,6 +120,44 @@
     </div>
 </div>
 <script>
+    const notiSocket = new WebSocket("ws://localhost:8080/eCommerceProject/notification");
+
+    notiSocket.onopen = function () {
+        console.log("Toast is connected");
+    };
+
+    notiSocket.onmessage = function (event) {
+        var toastObj = JSON.parse(event.data);
+        console.log(toastObj);
+        Toastify({
+            text: toastObj.name + " has just ordered " + toastObj.totalItems + " products with a total amount of " + formatCurrency(toastObj.totalPrice)
+                + " from Buylicious!",
+            duration: 10000,
+            close: true,
+            gravity: "bottom", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            className: "w-[350px] break-words",
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            },
+            onClick: function () {
+            } // Callback after click
+        }).showToast();
+    };
+
+    notiSocket.onclose = function (event) {
+        console.log("Toast is closed.");
+    };
+
+    notiSocket.onerror = function (error) {
+        console.error("Toast error: " + error.message);
+    };
+
+    function formatCurrency(number) {
+        return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(number);
+    }
+
     const email = document.querySelector('input[name="txtEmail"]');
     const password = document.querySelector('input[name="txtPassword"]');
     const loginButton = document.getElementById('loginButton');
@@ -249,6 +288,7 @@
     });
 
 </script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>
 
 </html>

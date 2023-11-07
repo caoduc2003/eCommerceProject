@@ -1,9 +1,9 @@
 package com.ecommerce.utils;
 
 public class GoogleConstants {
-    public static String GOOGLE_CLIENT_ID = "432080739851-i90lscb3v0n6lrv551n210tise0a6drf.apps.googleusercontent.com";
+    public static String GOOGLE_CLIENT_ID = "hihi";
 
-    public static String GOOGLE_CLIENT_SECRET = "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";
+    public static String GOOGLE_CLIENT_SECRET = "hehe";
 
     public static String GOOGLE_REDIRECT_URI = "http://localhost:8080/eCommerceProject/login-google";
 
