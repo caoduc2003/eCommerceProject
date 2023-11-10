@@ -5,7 +5,7 @@ This project is an e-commerce web application called Buylicious which is built o
 
 **Software requirement:** Apache Tomcat 10.0.27, SSMS 19, SQL Server 2022,  Apache Netbeans 13 or later, IntelliJ IDEA
 
-**Libraries:** Since this is a Maven project, all required libraries have been imported into pom.xml. You just have to deploy project to run.
+**Libraries:** Since this is a Maven project, all required libraries have been imported into pom.xml. You just have to deploy project and run.
 
 **Database:** You will download script [here](https://drive.google.com/file/d/1e3FOU2VIK77_Umqjj839ZsSrBdO6B8cz/view?usp=sharing) and execute it to create a database with previously added values for the operation of the web application.
 
