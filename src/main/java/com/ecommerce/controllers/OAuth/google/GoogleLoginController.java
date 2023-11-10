@@ -4,25 +4,23 @@ import com.ecommerce.DAO.UserDAO;
 import com.ecommerce.DTO.UserGoogleDTO;
 import com.ecommerce.utils.GoogleConstants;
 import com.ecommerce.utils.ProcessOAuthGoogle;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.fluent.Form;
-import org.apache.http.client.fluent.Request;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import static com.ecommerce.utils.ProcessOAuthGoogle.getUserInfo;
-
 @WebServlet(name = "GoogleLoginController", urlPatterns = {"/login-google"})
 public class GoogleLoginController extends HttpServlet {
+    /*
+            Due to security reason, I have to hide client id and client secret key and "login/register with Google" feature is not available,
+            if you want to test this feature, please contact me to get these keys:
+            email: ducldc@jsclub.dev or ducldche176120@fpt.edu.vn
+            */
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

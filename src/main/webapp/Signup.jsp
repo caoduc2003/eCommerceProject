@@ -134,16 +134,16 @@
                             </div>
                         </div>
 
-                        <div class="mt-6">
+                        <div class="mt-6 flex flex-col justify-center">
                             <div class="form-control">
                                 <button class="btn btn-primary btn-outline" type="submit" onclick="registerUser()">
                                     Signup
                                 </button>
                             </div>
                             <div class="divider">OR</div>
-                            <div class="form-control">
+                            <div class="form-control tooltip tooltip-right" data-tip="Feature have been disabled due to Google security reason, if you want to use this feature, pls contact me at: ducldc@jsclub.dev">
                                 <a href="https://accounts.google.com/o/oauth2/auth?scope=profile email&redirect_uri=http://localhost:8080/eCommerceProject/register-google&response_type=code&client_id=432080739851-i90lscb3v0n6lrv551n210tise0a6drf.apps.googleusercontent.com&approval_prompt=force"
-                                    class="btn btn-primary btn-outline">
+                                    class="btn btn-primary btn-outline btn-disabled" disabled>
                                     <img src="./asset/images/Login/icons8-google.svg" alt="Google logo"
                                         class="w-5 h-5">Register with Google
                                 </a>

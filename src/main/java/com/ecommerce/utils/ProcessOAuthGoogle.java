@@ -10,6 +10,11 @@ import org.apache.http.client.fluent.Request;
 import java.io.IOException;
 
 public class ProcessOAuthGoogle {
+    /*
+        Due to security reason, I have to hide client id and client secret key and "login/register with Google" feature is not available,
+        if you want to test this feature, please contact me to get these keys:
+        email: ducldc@jsclub.dev or ducldche176120@fpt.edu.vn
+        */
     public static String getToken(String code, String redirect_url) throws ClientProtocolException, IOException {
         // call api to get token
         String response = Request.Post(GoogleConstants.GOOGLE_LINK_GET_TOKEN)

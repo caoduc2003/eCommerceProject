@@ -1,9 +1,13 @@
 package com.ecommerce.utils;
 
 public class GoogleConstants {
-    public static String GOOGLE_CLIENT_ID = "hihi";
-
-    public static String GOOGLE_CLIENT_SECRET = "hehe";
+        /*
+        Due to security reason, I have to hide client id and client secret key and "login/register with Google" feature is not available,
+        if you want to test this feature, please contact me to get these keys:
+        email: ducldc@jsclub.dev or ducldche176120@fpt.edu.vn
+        */
+    public static String GOOGLE_CLIENT_ID = "";
+    public static String GOOGLE_CLIENT_SECRET = "";
 
     public static String GOOGLE_REDIRECT_URI = "http://localhost:8080/eCommerceProject/login-google";
 

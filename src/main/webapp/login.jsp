@@ -100,12 +100,15 @@
                         </button>
                     </div>
                     <div class="divider font-semibold text-sm">OR</div>
-                    <div class="form-control">
-                        <a href="https://accounts.google.com/o/oauth2/auth?scope=profile email&redirect_uri=http://localhost:8080/eCommerceProject/login-google&response_type=code&client_id=432080739851-i90lscb3v0n6lrv551n210tise0a6drf.apps.googleusercontent.com&approval_prompt=force"
-                           class="btn btn-primary btn-outline">
+                    <div class="form-control w-full">
+                        <div class="tooltip tooltip-right" data-tip="Feature have been disabled due to Google security reason, if you want to use this feature, pls contact me at: ducldc@jsclub.dev">
+                            <a href="https://accounts.google.com/o/oauth2/auth?scope=profile email&redirect_uri=http://localhost:8080/eCommerceProject/login-google&response_type=code&client_id=432080739851-i90lscb3v0n6lrv551n210tise0a6drf.apps.googleusercontent.com&approval_prompt=force"
+                           class="btn btn-primary btn-outline btn-disabled" disabled>
                             <img src="./asset/images/Login/icons8-google.svg" alt="Google logo"
                                  class="w-5 h-5">Sign in with Google
                         </a>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="text-center mt-5">

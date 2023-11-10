@@ -18,6 +18,12 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet(name = "GoogleRegisterController", urlPatterns = {"/register-google"})
 public class GoogleRegisterController extends HttpServlet {
 
+    /*
+        Due to security reason, I have to hide client id and client secret key and "login/register with Google" feature is not available,
+        if you want to test this feature, please contact me to get these keys:
+        email: ducldc@jsclub.dev or ducldche176120@fpt.edu.vn
+        */
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
