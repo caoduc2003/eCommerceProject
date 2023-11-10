@@ -30,7 +30,7 @@ Github CLI
    
 **Step 4:** Run the project, you can register a new account or use an existing account in the database to log in (All login information is saved in the Users table).
 
-*Note: Due to security reason, I have to hide client id and client secret key and "login/register with Google" feature will not available, if you want to test this feature, please contact me to get these keys: email: ducldc@jsclub.dev or ducldche176120@fpt.edu.vn*
+*Note: Due to security reason, I have to hide client id and client secret key, so "login/register with Google" feature will not available, if you want to test this feature, please contact me to get these keys: email: ducldc@jsclub.dev or ducldche176120@fpt.edu.vn*
 
    
 
