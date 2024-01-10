@@ -1,4 +1,4 @@
-# eCommerceProject
+# Buylicious
 This project is an e-commerce web application called Buylicious which is built on the Java Servlet platform
 
 ## Installation
